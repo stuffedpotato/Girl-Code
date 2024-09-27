@@ -20,5 +20,4 @@ Women's health has always been extremely important to me, especially breast heal
 - As a user, I want to be able to view my previous entries.
 - As a user, I want to be able to modify an entry.
 - As a user, I want to be able to analyze my cycle information (average cycle length, breast health etc.).
-- As a user, I want to be able to set a reminder for missed days of logging.
 - Potentially: As a user, I want to be able to check predictions for my next cycle based on previously entered data.
