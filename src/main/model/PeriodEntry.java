@@ -29,6 +29,7 @@ public class PeriodEntry {
         painAreas = new ArrayList<String>();
         feelingsList = new ArrayList<String>();
         breastConditions = new ArrayList<String>();
+        
     }
 
     /*

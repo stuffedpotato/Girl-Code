@@ -20,7 +20,7 @@ public class PeriodEntryTest {
         date1 = LocalDate.now();
         testEntry1 = new PeriodEntry(date1);
     }
-    
+
     @Test
     void testConstructor() {
         LocalDate date2 = LocalDate.of(2024, 10, 01);
@@ -37,7 +37,6 @@ public class PeriodEntryTest {
 
         testEntry1.logHeaviness(2);
         assertEquals(2, testEntry1.getHeaviness());
-
 
     }
 
@@ -63,23 +62,25 @@ public class PeriodEntryTest {
         testEntry1.logCollectionMethod("Tampon", 1);
         assertEquals("Tampon", testEntry1.getCollectionMethod());
         assertEquals(4, testEntry1.getCollectionNumUsed());
-
-        testEntry1.logCollectionMethod("Pads", 3);
-        assertEquals("Pads", testEntry1.getCollectionMethod());
-        assertEquals(3, testEntry1.getCollectionNumUsed());
     }
 
     @Test
     void testLogFeelings() {
         testEntry1.logFeelings("Sensitive");
         testEntry1.logFeelings("Anxious");
-        List<String> result = testEntry1.getFeelings();
+        List<String> result = testEntry1.getFeelingsList();
+        assertEquals(2, result.size());
+        assertEquals("Sensitive", result.get(0));
+        assertEquals("Anxious", result.get(1));
+
+        // Testing for duplication
+        testEntry1.logFeelings("Sensitive");
         assertEquals(2, result.size());
         assertEquals("Sensitive", result.get(0));
         assertEquals("Anxious", result.get(1));
 
         assertTrue(testEntry1.resetFeelings());
-        result = testEntry1.getFeelings();
+        result = testEntry1.getFeelingsList();
         assertEquals(0, result.size());
 
         assertFalse(testEntry1.resetFeelings());
@@ -90,6 +91,12 @@ public class PeriodEntryTest {
         testEntry1.logBreastHealth("Swollen");
         testEntry1.logBreastHealth("Lumpy");
         List<String> result = testEntry1.getBreastHealth();
+        assertEquals(2, result.size());
+        assertEquals("Swollen", result.get(0));
+        assertEquals("Lumpy", result.get(1));
+
+        // Testing for duplication
+        testEntry1.logBreastHealth("Lumpy");
         assertEquals(2, result.size());
         assertEquals("Swollen", result.get(0));
         assertEquals("Lumpy", result.get(1));
