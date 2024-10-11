@@ -9,14 +9,19 @@ import java.util.List;
  * It logs details of the period entry along with the date the entry corresponds to.
  */
 public class PeriodEntry {
+
     private LocalDate date;
-    private int heavinessLevel, totalNumProductsUsed;
-    private List<String> painAreas, feelingsList, breastConditions;
+    private int heavinessLevel;
+    private int totalNumProductsUsed;
+    private List<String> painAreas;
+    private List<String> feelingsList;
+    private List<String> breastConditions;
     private String collectionMethod;
 
     /*
      * REQUIRES: date must not be null.
-     * EFFECTS: constructs an object of PeriodEntry and initializes this.date to the date passed by user (i.e. the date they are logging their period for).
+     * EFFECTS: constructs an object of PeriodEntry and initializes this.date to the
+     * date passed by user (i.e. the date they are logging their period for).
      */
     public PeriodEntry(LocalDate date) {
         this.date = date;
@@ -29,7 +34,9 @@ public class PeriodEntry {
     /*
      * REQUIRES: level must be between 0 and 4 (both inclusive).
      * MODIFIES: this
-     * EFFECTS: logs the heaviness of the period where level 0 means user is not on their period, level 1 corresponds to light flow, 2 corresponds to medium flow, 3 corresponds to heavy flow and 4 corresponds to very heavy flow.
+     * EFFECTS: logs the heaviness of the period where level 0 means user is not on
+     * their period, level 1 corresponds to light flow, 2 corresponds to medium
+     * flow, 3 corresponds to heavy flow and 4 corresponds to very heavy flow.
      */
     public void logHeaviness(int level) {
         heavinessLevel = level;
@@ -38,7 +45,8 @@ public class PeriodEntry {
     /*
      * REQUIRES: area must not be null.
      * MODIFIES: this
-     * EFFECTS: logs the area of the pain if the area has not previously been entered and keeps a list of all areas of pain for the day.
+     * EFFECTS: logs the area of the pain if the area has not previously been
+     * entered and keeps a list of all areas of pain for the day.
      */
     public void logPain(String area) {
         loggingToList(painAreas, area);
@@ -47,8 +55,9 @@ public class PeriodEntry {
     /*
      * REQUIRES: collectionMethod must not be null, numUsed must be >0.
      * MODIFIES: this
-     * EFFECTS: logs the collection method and total num used of the collection method for the day user is tracking.
-     */ 
+     * EFFECTS: logs the collection method and total num used of the collection
+     * method for the day user is tracking.
+     */
     public void logCollectionMethod(String collectionMethod, int numUsed) {
         this.collectionMethod = stringManipulation(collectionMethod);
         totalNumProductsUsed = totalNumProductsUsed + numUsed;
@@ -57,16 +66,19 @@ public class PeriodEntry {
     /*
      * REQUIRES: feeling must not be null.
      * MODIFIES: this
-     * EFFECTS: logs how the user felt the day of tracking (ex. sad, happy, sensitive, angry, etc.) and keeps a list of all feelings for the day.
+     * EFFECTS: logs how the user felt the day of tracking (ex. sad, happy,
+     * sensitive, angry, etc.) and keeps a list of all feelings for the day.
      */
     public void logFeelings(String feeling) {
         loggingToList(feelingsList, feeling);
     }
 
     /*
-     * REQUIRES: condition must not be null. Note: breast pain must NOT be logged here and must be logged in logPain method instead.
+     * REQUIRES: condition must not be null. Note: breast pain must NOT be logged
+     * here and must be logged in logPain method instead.
      * MODIFIES: this
-     * EFFECTS: logs the breast health of the user (ex. swollen breasts, lumps, etc.).
+     * EFFECTS: logs the breast health of the user (ex. swollen breasts, lumps,
+     * etc.).
      */
     public void logBreastHealth(String condition) {
         loggingToList(breastConditions, condition);
@@ -101,29 +113,34 @@ public class PeriodEntry {
     }
 
     /*
-     * Setters seemed unnecessary for my program so instead I have designed some resetters to reset certain fields. User can reset a field and then use the log methods to log new conditions.
+     * Setters seemed unnecessary for my program so instead I have designed some
+     * resetters to reset certain fields. User can reset a field and then use the
+     * log methods to log new conditions.
      */
 
     /*
-    * MODIFIES: this
-    * EFFECTS: empties list of pain areas if the list has any components and returns true. If no components, does not do anything and return false. 
-    */
+     * MODIFIES: this
+     * EFFECTS: empties list of pain areas if the list has any components and
+     * returns true. If no components, does not do anything and return false.
+     */
     public boolean resetPain() {
         return reset(painAreas);
     }
 
     /*
-    * MODIFIES: this
-    * EFFECTS: empties list of feelings if the list has any components and returns true. If no components, does not do anything and return false. 
-    */
+     * MODIFIES: this
+     * EFFECTS: empties list of feelings if the list has any components and returns
+     * true. If no components, does not do anything and return false.
+     */
     public boolean resetFeelings() {
         return reset(feelingsList);
     }
 
     /*
-    * MODIFIES: this
-    * EFFECTS: empties list of breast conditions if the list has any components and returns true. If no components, does not do anything and return false. 
-    */
+     * MODIFIES: this
+     * EFFECTS: empties list of breast conditions if the list has any components and
+     * returns true. If no components, does not do anything and return false.
+     */
     public boolean resetBreastHealth() {
         return reset(breastConditions);
     }
@@ -138,8 +155,7 @@ public class PeriodEntry {
 
         if (list.isEmpty()) {
             list.add(s);
-        }
-        else {
+        } else {
             if (!findDuplicates(list, s)) {
                 list.add(s);
             }
@@ -148,21 +164,23 @@ public class PeriodEntry {
 
     /*
      * REQUIRES: s must not be null.
-     * EFFECTS: formats the string s as: Abcd, i.e. makes the first letter uppercase and the rest lowercase. Returns the formatted string.
+     * EFFECTS: formats the string s as: Abcd, i.e. makes the first letter uppercase
+     * and the rest lowercase. Returns the formatted string.
      */
     private String stringManipulation(String s) {
         s = s.toLowerCase();
-        String firstLetter = s.toUpperCase().substring(0,1);
+        String firstLetter = s.toUpperCase().substring(0, 1);
         s = firstLetter + s.substring(1);
         return s;
     }
 
     /*
      * REQUIRES: list must not be null and s must not be null.
-     * EFFECTS: checks to see if s exists in the list. Returns true if yes and false if no.
+     * EFFECTS: checks to see if s exists in the list. Returns true if yes and false
+     * if no.
      */
     private boolean findDuplicates(List<String> list, String s) {
-    for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             if (list.get(i).equals(s)) {
                 return true;
             }
@@ -174,10 +192,11 @@ public class PeriodEntry {
     /*
      * REQUIRES: list must not be null.
      * MODIFIES: this
-     * EFFECTS: empties the list if the list is not empty already and returns true. Otherwise, returns false.
+     * EFFECTS: empties the list if the list is not empty already and returns true.
+     * Otherwise, returns false.
      */
     private boolean reset(List<String> list) {
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             return false;
         }
 
