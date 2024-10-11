@@ -135,7 +135,7 @@ public class PeriodLog {
     public String toString() {
 
         if (myLog.isEmpty()) {
-            return ("Nothing to Display");
+            return ("Nothing to display");
         }
 
         String result = "";

@@ -62,6 +62,12 @@ public class PeriodEntryTest {
         testEntry1.logCollectionMethod("Tampon", 1);
         assertEquals("Tampon", testEntry1.getCollectionMethod());
         assertEquals(4, testEntry1.getCollectionNumUsed());
+
+        testEntry1.resetCollectionMethodNumUsed();
+        assertEquals(0, testEntry1.getCollectionNumUsed());
+        testEntry1.logCollectionMethod("Pads", 1);
+        assertEquals("Pads", testEntry1.getCollectionMethod());
+        assertEquals(1, testEntry1.getCollectionNumUsed());
     }
 
     @Test
@@ -106,5 +112,10 @@ public class PeriodEntryTest {
         assertEquals(0, result.size());
 
         assertFalse(testEntry1.resetBreastHealth());
+    }
+
+    @Test
+    void testToString() {
+        assertTrue(testEntry1.toString().contains("Date: " + date1));
     }
 }

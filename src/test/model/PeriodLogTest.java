@@ -91,4 +91,12 @@ public class PeriodLogTest {
         testEntry1.logHeaviness(3);
         assertEquals(2, testLog.getAverageCycleLength());
     }
+
+    @Test
+    void testToString() {
+        assertTrue(testLog.toString().contains("Nothing to display"));
+
+        testLog.addEntry(testEntry1);
+        assertTrue(testLog.toString().contains("Date: " + date1));
+    }
 }
