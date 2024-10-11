@@ -1,53 +1,66 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-//This class represents a single period entry created by the user. It logs details of the period entry along with the date the entry corresponds to.
+/*
+ * This class represents a single period entry created by the user. 
+ * It logs details of the period entry along with the date the entry corresponds to.
+ */
 public class PeriodEntry {
-    //fields
+    private LocalDate date;
+    private int heavinessLevel, totalNumProductsUsed;
+    private List<String> painAreas, feelingsList, breastConditions;
+    private String collectionMethod;
 
     /*
      * REQUIRES: date must not be null.
      * EFFECTS: constructs an object of PeriodEntry and initializes this.date to the date passed by user (i.e. the date they are logging their period for).
      */
     public PeriodEntry(LocalDate date) {
-        //stub
+        this.date = date;
+        totalNumProductsUsed = 0;
+        painAreas = new ArrayList<String>();
+        feelingsList = new ArrayList<String>();
+        breastConditions = new ArrayList<String>();
     }
 
     /*
-     * REQUIRES: level must be between 1 and 4 (both inclusive).
+     * REQUIRES: level must be between 0 and 4 (both inclusive).
      * MODIFIES: this
-     * EFFECTS: logs the heaviness of the period where level 1 corresponds to light flow, 2 corresponds to medium flow, 3 corresponds to heavy flow and 4 corresponds to very heavy flow.
+     * EFFECTS: logs the heaviness of the period where level 0 means user is not on their period, level 1 corresponds to light flow, 2 corresponds to medium flow, 3 corresponds to heavy flow and 4 corresponds to very heavy flow.
      */
-    private void logHeaviness(int level) {
-        //stub
+    public void logHeaviness(int level) {
+        heavinessLevel = level;
     }
 
     /*
-     * REQUIRES: area must not be null, level must be between 1 and 4 (both inclusive).
+     * REQUIRES: area must not be null.
      * MODIFIES: this
-     * EFFECTS: logs the area of the pain along with the level of pain experienced. Level 1 corresponds to mild, 2 is moderate, 3 is high and 4 means user needed medical attention.
+     * EFFECTS: logs the area of the pain if the area has not previously been entered and keeps a list of all areas of pain for the day.
      */
-    private void logPain(String area, int level) {
-        //stub
+    public void logPain(String area) {
+        loggingToList(painAreas, area);
     }
 
     /*
      * REQUIRES: collectionMethod must not be null, numUsed must be >0.
      * MODIFIES: this
-     * EFFECTS: logs the collection method used the day of tracking. numUsed represents the number used of that particular collection method for the day (ex. user used 3 pads in total the day of tracking).
-     */
-    private void logCollectionMethod(String collectionMethod, int numUsed) {
-        //stub
+     * EFFECTS: logs the collection method and total num used of the collection method for the day user is tracking.
+     */ 
+    public void logCollectionMethod(String collectionMethod, int numUsed) {
+        this.collectionMethod = stringManipulation(collectionMethod);
+        totalNumProductsUsed = totalNumProductsUsed + numUsed;
     }
 
     /*
      * REQUIRES: feeling must not be null.
      * MODIFIES: this
-     * EFFECTS: logs how the user felt the day of tracking (ex. sad, happy, sensitive, angry, etc.).
+     * EFFECTS: logs how the user felt the day of tracking (ex. sad, happy, sensitive, angry, etc.) and keeps a list of all feelings for the day.
      */
-    private void logFeelings(String feeling) {
-        //stub
+    public void logFeelings(String feeling) {
+        loggingToList(feelingsList, feeling);
     }
 
     /*
@@ -55,48 +68,119 @@ public class PeriodEntry {
      * MODIFIES: this
      * EFFECTS: logs the breast health of the user (ex. swollen breasts, lumps, etc.).
      */
-    private void logBreastHealth(String condition) {
-        //stub
+    public void logBreastHealth(String condition) {
+        loggingToList(breastConditions, condition);
     }
 
-    private void getHeaviness() {
-        //stub
+    public LocalDate getDate() {
+        return this.date;
     }
 
-    private void getPain() {
-        //stub
+    public int getHeaviness() {
+        return this.heavinessLevel;
     }
 
-    private void getCollectionMethod() {
-        //stub
+    public List<String> getPain() {
+        return painAreas;
     }
 
-    private void getFeelings() {
-        //stub
+    public String getCollectionMethod() {
+        return collectionMethod;
     }
 
-    private void getBreastHealth() {
-        //stub
+    public int getCollectionNumUsed() {
+        return totalNumProductsUsed;
     }
 
-    private void setHeaviness(int level) {
-        //stub
+    public List<String> getFeelingsList() {
+        return feelingsList;
     }
 
-    private void setPain(String area, int level) {
-        //stub
+    public List<String> getBreastHealth() {
+        return breastConditions;
     }
 
-    private void setCollectionMethod(String collectionMethod, int numUsed) {
-        //stub
+    /*
+     * Setters seemed unnecessary for my program so instead I have designed some resetters to reset certain fields. User can reset a field and then use the log methods to log new conditions.
+     */
+
+    /*
+    * MODIFIES: this
+    * EFFECTS: empties list of pain areas if the list has any components and returns true. If no components, does not do anything and return false. 
+    */
+    public boolean resetPain() {
+        return reset(painAreas);
     }
 
-    private void setFeelings(String feeling) {
-        //stub
+    /*
+    * MODIFIES: this
+    * EFFECTS: empties list of feelings if the list has any components and returns true. If no components, does not do anything and return false. 
+    */
+    public boolean resetFeelings() {
+        return reset(feelingsList);
     }
 
-    private void setBreastHealth(String condition) {
-        //stub
+    /*
+    * MODIFIES: this
+    * EFFECTS: empties list of breast conditions if the list has any components and returns true. If no components, does not do anything and return false. 
+    */
+    public boolean resetBreastHealth() {
+        return reset(breastConditions);
     }
 
+    /*
+     * REQUIRES: list must not be null, s must not be null.
+     * MODIFIES: this
+     * EFFECTS: adds s to list if it does not exist in the list already.
+     */
+    private void loggingToList(List<String> list, String s) {
+        s = stringManipulation(s);
+
+        if (list.isEmpty()) {
+            list.add(s);
+        }
+        else {
+            if (!findDuplicates(list, s)) {
+                list.add(s);
+            }
+        }
+    }
+
+    /*
+     * REQUIRES: s must not be null.
+     * EFFECTS: formats the string s as: Abcd, i.e. makes the first letter uppercase and the rest lowercase. Returns the formatted string.
+     */
+    private String stringManipulation(String s) {
+        s = s.toLowerCase();
+        String firstLetter = s.toUpperCase().substring(0,1);
+        s = firstLetter + s.substring(1);
+        return s;
+    }
+
+    /*
+     * REQUIRES: list must not be null and s must not be null.
+     * EFFECTS: checks to see if s exists in the list. Returns true if yes and false if no.
+     */
+    private boolean findDuplicates(List<String> list, String s) {
+    for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).equals(s)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /*
+     * REQUIRES: list must not be null.
+     * MODIFIES: this
+     * EFFECTS: empties the list if the list is not empty already and returns true. Otherwise, returns false.
+     */
+    private boolean reset(List<String> list) {
+        if (list.isEmpty()){
+            return false;
+        }
+
+        return list.removeAll(list);
+    }
 }
