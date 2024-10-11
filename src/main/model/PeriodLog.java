@@ -94,4 +94,34 @@ public class PeriodLog {
         return false;
     }
 
+        //ANALYTICS
+
+        public int getAverageCycleLength() {
+            if (myLog.isEmpty()) {
+                return 0;
+            }
+    
+            int numDays = 0;
+            int average = 0;
+            int size = myLog.size();
+    
+            for (int i = 0; i < size; i++) {
+                PeriodEntry entry = myLog.get(i);
+    
+                if (entry.getHeaviness() > 0) {
+                    numDays++;
+                }
+            }
+
+            if (size < 28) {
+                average = numDays;
+            }
+            else {
+                double cycles = size / 28;
+                average = (int)(numDays / cycles);
+            }
+    
+            return average;
+        }
+
 }

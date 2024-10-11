@@ -73,4 +73,22 @@ public class PeriodLogTest {
         //To test when no entry with the given date exists
         assertEquals(null, testLog.getEntry(LocalDate.of(2024, 9, 30)));
     }
+
+    @Test
+    void testGetAverageCycleLength() {
+        //to test for empty log
+        assertEquals(0, testLog.getAverageCycleLength());
+        
+        testLog.addEntry(testEntry1);
+        testLog.addEntry(testEntry2);
+        testEntry1.logHeaviness(0);
+        testEntry2.logHeaviness(2);
+        assertEquals(1, testLog.getAverageCycleLength());
+
+        PeriodEntry testEntry3 = new PeriodEntry(LocalDate.of(2024, 10, 06));
+        testLog.addEntry(testEntry2);
+        testEntry3.logHeaviness(0);
+        testEntry1.logHeaviness(3);
+        assertEquals(2, testLog.getAverageCycleLength());
+    }
 }
