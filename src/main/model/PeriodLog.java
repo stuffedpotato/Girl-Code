@@ -8,53 +8,90 @@ import java.util.ArrayList;
  * This class is used to log all period entries and store them.
  */
 public class PeriodLog {
-    //fields
+    private List<PeriodEntry> myLog;
 
     /*
-     * EFFECTS: creates an instance of PeriodLog by creating an array list to store PeriodEntry entries.
+     * EFFECTS: creates an instance of PeriodLog by creating an array list to store
+     * PeriodEntry entries.
      */
     public PeriodLog() {
-        //stub
+        myLog = new ArrayList<PeriodEntry>();
     }
 
     /*
      * REQUIRES: entry must not be null.
      * MODIFIES: this
-     * EFFECTS: adds the period entry to the list of all entries if it does not exist already. Checks using date of entry.
+     * EFFECTS: adds the period entry to the list of all entries if it does not
+     * exist already. Checks using date of entry.
      */
     public void addEntry(PeriodEntry entry) {
-        //stub
+        if (myLog.isEmpty()) {
+            myLog.add(entry);
+        } else {
+            if (!findEntry(myLog, entry)) {
+                myLog.add(entry);
+            }
+        }
     }
 
     /*
      * MODIFIES: this
-     * EFFECTS: if period log contains any elements (entries), removes all elements and returns true. Returns false otherwise.
+     * EFFECTS: if period log contains any elements (entries), removes all elements
+     * and returns true. Returns false otherwise.
      */
     public boolean clearLog() {
-        return true; //stub
+        if (myLog.isEmpty()) {
+            return false;
+        }
+
+        myLog.removeAll(myLog);
+        return true;
     }
 
     /*
      * REQUIRES: date must not be null.
-     * EFFECTS: returns the requested entry from the log based on the date entered.
+     * EFFECTS: returns the requested entry from the log based on the date entered
+     * if entry exists in the log.
      */
     public PeriodEntry getEntry(LocalDate date) {
-        return null; //stub
+        if (myLog.isEmpty()) {
+            return null;
+        }
+
+        // PeriodEntry entry = null;
+
+        for (int i = 0; i < myLog.size(); i++) {
+            PeriodEntry entry = myLog.get(i);
+
+            if (entry.getDate().equals(date)) {
+                return entry;
+            }
+        }
+
+        return null;
     }
 
     /*
      * EFFECTS: returns the list of all period entries that exist in the period log.
      */
     public List<PeriodEntry> getLog() {
-        return null; //stub
+        return myLog;
     }
 
     /*
      * REQUIRES: list must not be null and entry must not be null.
-     * EFFECTS: checks to see if entry already exists in the list and returns true if found. Returns false otherwise.
+     * EFFECTS: checks to see if entry exists in the list and returns true if found.
+     * Returns false otherwise.
      */
-    private boolean findDuplicates(List<PeriodEntry> list, PeriodEntry entry) {
-        return true; //stub
+    private boolean findEntry(List<PeriodEntry> list, PeriodEntry entry) {
+        LocalDate date = entry.getDate();
+
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getDate().equals(date)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
