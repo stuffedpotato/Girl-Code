@@ -34,7 +34,7 @@ public class PeriodEntry {
 
     /*
      * REQUIRES: level must be between 0 and 4 (both inclusive).
-     * MODIFIES: this
+     * MODIFIES: this, PeriodLog
      * EFFECTS: logs the heaviness of the period where level 0 means user is not on
      * their period, level 1 corresponds to light flow, 2 corresponds to medium
      * flow, 3 corresponds to heavy flow and 4 corresponds to very heavy flow.
@@ -45,7 +45,7 @@ public class PeriodEntry {
 
     /*
      * REQUIRES: area must not be null.
-     * MODIFIES: this
+     * MODIFIES: this, PeriodLog
      * EFFECTS: logs the area of the pain if the area has not previously been
      * entered and keeps a list of all areas of pain for the day.
      */
@@ -55,7 +55,7 @@ public class PeriodEntry {
 
     /*
      * REQUIRES: collectionMethod must not be null, numUsed must be >0.
-     * MODIFIES: this
+     * MODIFIES: this, PeriodLog
      * EFFECTS: logs the collection method and total num used of the collection
      * method for the day user is tracking.
      */
@@ -66,7 +66,7 @@ public class PeriodEntry {
 
     /*
      * REQUIRES: feeling must not be null.
-     * MODIFIES: this
+     * MODIFIES: this, PeriodLog
      * EFFECTS: logs how the user felt the day of tracking (ex. sad, happy,
      * sensitive, angry, etc.) and keeps a list of all feelings for the day.
      */
@@ -77,7 +77,7 @@ public class PeriodEntry {
     /*
      * REQUIRES: condition must not be null. Note: breast pain must NOT be logged
      * here and must be logged in logPain method instead.
-     * MODIFIES: this
+     * MODIFIES: this, PeriodLog
      * EFFECTS: logs the breast health of the user (ex. swollen breasts, lumps,
      * etc.).
      */
@@ -120,7 +120,7 @@ public class PeriodEntry {
      */
 
     /*
-     * MODIFIES: this
+     * MODIFIES: this, PeriodLog
      * EFFECTS: empties list of pain areas if the list has any components and
      * returns true. If no components, does not do anything and return false.
      */
@@ -129,7 +129,7 @@ public class PeriodEntry {
     }
 
     /*
-     * MODIFIES: this
+     * MODIFIES: this, PeriodLog
      * EFFECTS: empties list of feelings if the list has any components and returns
      * true. If no components, does not do anything and return false.
      */
@@ -138,7 +138,7 @@ public class PeriodEntry {
     }
 
     /*
-     * MODIFIES: this
+     * MODIFIES: this, PeriodLog
      * EFFECTS: empties list of breast conditions if the list has any components and
      * returns true. If no components, does not do anything and return false.
      */
@@ -148,7 +148,7 @@ public class PeriodEntry {
 
     /*
      * REQUIRES: list must not be null, s must not be null.
-     * MODIFIES: this
+     * MODIFIES: this, PeriodLog
      * EFFECTS: adds s to list if it does not exist in the list already.
      */
     private void loggingToList(List<String> list, String s) {
@@ -192,7 +192,7 @@ public class PeriodEntry {
 
     /*
      * REQUIRES: list must not be null.
-     * MODIFIES: this
+     * MODIFIES: this, PeriodLog
      * EFFECTS: empties the list if the list is not empty already and returns true.
      * Otherwise, returns false.
      */
