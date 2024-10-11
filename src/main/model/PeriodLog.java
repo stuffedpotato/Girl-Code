@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /*
- * This class is used to log all period entries and store them.
+ * This class is used to log all period entries and store them. 
+ * It also has methods to access all/any entries as well as 
+ * has methods that can be called if user wants to analyze their period log.
  */
 public class PeriodLog {
     private List<PeriodEntry> myLog;
@@ -94,34 +96,36 @@ public class PeriodLog {
         return false;
     }
 
-        //ANALYTICS
+    // ANALYTICS
 
-        public int getAverageCycleLength() {
-            if (myLog.isEmpty()) {
-                return 0;
-            }
-    
-            int numDays = 0;
-            int average = 0;
-            int size = myLog.size();
-    
-            for (int i = 0; i < size; i++) {
-                PeriodEntry entry = myLog.get(i);
-    
-                if (entry.getHeaviness() > 0) {
-                    numDays++;
-                }
-            }
-
-            if (size < 28) {
-                average = numDays;
-            }
-            else {
-                double cycles = size / 28;
-                average = (int)(numDays / cycles);
-            }
-    
-            return average;
+    /*
+     * EFFECTS: returns average cycle length based on number of days that user
+     * recorded a heaviness level of 1-4 and total number of entries in the log.
+     */
+    public int getAverageCycleLength() {
+        if (myLog.isEmpty()) {
+            return 0;
         }
 
+        int numDays = 0;
+        int average = 0;
+        int size = myLog.size();
+
+        for (int i = 0; i < size; i++) {
+            PeriodEntry entry = myLog.get(i);
+
+            if (entry.getHeaviness() > 0) {
+                numDays++;
+            }
+        }
+
+        if (size < 28) {
+            average = numDays;
+        } else {
+            double cycles = size / 28;
+            average = (int) (numDays / cycles);
+        }
+
+        return average;
+    }
 }
