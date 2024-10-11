@@ -29,7 +29,7 @@ public class PeriodEntry {
         painAreas = new ArrayList<String>();
         feelingsList = new ArrayList<String>();
         breastConditions = new ArrayList<String>();
-        
+
     }
 
     /*
@@ -130,6 +130,14 @@ public class PeriodEntry {
 
     /*
      * MODIFIES: this, PeriodLog
+     * EFFECTS: resets total number of products used to 0 for the entry.
+     */
+    public void resetCollectionMethodNumUsed() {
+        totalNumProductsUsed = 0;
+    }
+
+    /*
+     * MODIFIES: this, PeriodLog
      * EFFECTS: empties list of feelings if the list has any components and returns
      * true. If no components, does not do anything and return false.
      */
@@ -202,5 +210,26 @@ public class PeriodEntry {
         }
 
         return list.removeAll(list);
+    }
+
+    /*
+     * EFFECTS: returns string representation of the entry.
+     */
+    public String toString() {
+        String result = "\nDate: " + date + ",\nHeaviness: " + heavinessLevel
+                + ",\nCollection method: " + collectionMethod
+                + ",\nTotal number of products used: " + totalNumProductsUsed + ",\n";
+
+        if (!painAreas.isEmpty()) {
+            result = result + "Areas of pain: " + painAreas;
+        }
+        if (!feelingsList.isEmpty()) {
+            result = result + "\nFeelings: " + feelingsList;
+        }
+        if (!breastConditions.isEmpty()) {
+            result = result + "\nBreast health: " + breastConditions;
+        }
+
+        return (result + "\n");
     }
 }

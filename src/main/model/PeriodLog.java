@@ -30,7 +30,7 @@ public class PeriodLog {
         if (myLog.isEmpty()) {
             myLog.add(entry);
         } else {
-            if (!findEntry(myLog, entry)) {
+            if (!findEntry(entry)) {
                 myLog.add(entry);
             }
         }
@@ -60,8 +60,6 @@ public class PeriodLog {
             return null;
         }
 
-        // PeriodEntry entry = null;
-
         for (int i = 0; i < myLog.size(); i++) {
             PeriodEntry entry = myLog.get(i);
 
@@ -81,15 +79,16 @@ public class PeriodLog {
     }
 
     /*
-     * REQUIRES: list must not be null and entry must not be null.
-     * EFFECTS: checks to see if entry exists in the list and returns true if found.
+     * REQUIRES: myLog must not be null and entry must not be null.
+     * EFFECTS: checks to see if entry already exists in myLog and returns true if
+     * found.
      * Returns false otherwise.
      */
-    private boolean findEntry(List<PeriodEntry> list, PeriodEntry entry) {
+    private boolean findEntry(PeriodEntry entry) {
         LocalDate date = entry.getDate();
 
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getDate().equals(date)) {
+        for (int i = 0; i < myLog.size(); i++) {
+            if (myLog.get(i).getDate().equals(date)) {
                 return true;
             }
         }
@@ -127,5 +126,24 @@ public class PeriodLog {
         }
 
         return average;
+    }
+
+    /*
+     * EFFECTS: returns string representation of the log.
+     */
+    @Override
+    public String toString() {
+
+        if (myLog.isEmpty()) {
+            return ("Nothing to Display");
+        }
+
+        String result = "";
+
+        for (int i = 0; i < myLog.size(); i++) {
+            result = result + myLog.get(i);
+        }
+
+        return result;
     }
 }
