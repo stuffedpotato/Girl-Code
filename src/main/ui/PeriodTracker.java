@@ -32,7 +32,7 @@ public class PeriodTracker {
 
         System.out.println(
                 "\nWelcome to your period tracking application! Please begin by entering your preferred name: ");
-        name = parseName(input.next());
+        name = parseString(input.next());
 
         while (run) {
             choice = menu();
@@ -285,7 +285,20 @@ public class PeriodTracker {
      * chosen by the user.
      */
     private void logCollection(PeriodEntry entry) {
+        int numUsed;
 
+        System.out.println("\nPlease choose the collection method used: "
+                + "\nPads" + "\nTampons" + "\nLiner" + "\nPeriod cup" + "\nPeriod underwear"
+                + "\n(Please choose only one option.)");
+
+        choice = input.nextLine();
+        choice = parseString(choice);
+
+        System.out.println("\nPlease enter how many " + choice + " were used: ");
+        numUsed = input.nextInt();
+        input.nextLine();
+
+        entry.logCollectionMethod(choice, numUsed);
     }
 
     /*
@@ -294,7 +307,25 @@ public class PeriodTracker {
      * EFFECTS: logs the breast health for the entry chosen by the user.
      */
     private void logBreastHealth(PeriodEntry entry) {
+        boolean recordMore = true;
 
+        do {
+            System.out.println("\nEnter your breast condition: "
+                    + "\nHealthy" + "\nLumpy" + "\nSwollen" + "\nTender"
+                    + "\n(Please choose one at a time. Enter \"Done\" once done.)");
+
+            choice = input.nextLine();
+            choice = choice.toLowerCase();
+
+            if (choice.equals("healthy") || choice.equals("lumpy")
+                    || choice.equals("swollen") || choice.equals("tender")) {
+                entry.logBreastHealth(choice);
+            } else if (choice.equals("done")) {
+                recordMore = false;
+            } else {
+                System.out.println("\nInvalid input, please try again.");
+            }
+        } while (recordMore);
     }
 
     /*
@@ -307,15 +338,15 @@ public class PeriodTracker {
     }
 
     /*
-     * REQUIRES: name must not be null.
+     * REQUIRES: s must not be null.
      * MODIFIES: this
-     * EFFECTS: formats name to Abcd and returns the formatted name.
+     * EFFECTS: formats s to Abcd and returns the formatted s.
      */
-    private String parseName(String name) {
-        name = name.toLowerCase();
-        String firstLetter = name.toUpperCase().substring(0, 1);
-        name = firstLetter + name.substring(1);
-        return name;
+    private String parseString(String s) {
+        s = s.toLowerCase();
+        String firstLetter = s.toUpperCase().substring(0, 1);
+        s = firstLetter + s.substring(1);
+        return s;
     }
 
     /*
