@@ -216,12 +216,12 @@ public class PeriodEntry {
      * EFFECTS: returns string representation of the entry.
      */
     public String toString() {
-        String result = "\nDate: " + date + ",\nHeaviness: " + heavinessLevel
-                + ",\nCollection method: " + collectionMethod
-                + ",\nTotal number of products used: " + totalNumProductsUsed + ",\n";
+        String result = "\nDate: " + date + "\nHeaviness: " + heavinessLevel
+                + "\nCollection method: " + collectionMethod
+                + "\nTotal number of products used: " + totalNumProductsUsed;
 
         if (!painAreas.isEmpty()) {
-            result = result + "Areas of pain: " + painAreas;
+            result = result + "\nAreas of pain: " + painAreas;
         }
         if (!feelingsList.isEmpty()) {
             result = result + "\nFeelings: " + feelingsList;

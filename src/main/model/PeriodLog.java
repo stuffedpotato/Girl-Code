@@ -26,14 +26,18 @@ public class PeriodLog {
      * EFFECTS: adds the period entry to the list of all entries if it does not
      * exist already. Checks using date of entry.
      */
-    public void addEntry(PeriodEntry entry) {
+    public boolean addEntry(PeriodEntry entry) {
         if (myLog.isEmpty()) {
             myLog.add(entry);
+            return true;
         } else {
             if (!findEntry(entry)) {
                 myLog.add(entry);
+                return true;
             }
         }
+        
+        return false;
     }
 
     /*

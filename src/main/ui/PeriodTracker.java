@@ -32,7 +32,7 @@ public class PeriodTracker {
 
         System.out.println(
                 "\nWelcome to your period tracking application! Please begin by entering your preferred name: ");
-        name = parseString(input.next());
+        name = parseString(input.nextLine());
 
         while (run) {
             choice = menu();
@@ -60,7 +60,7 @@ public class PeriodTracker {
                 + "\nClear: Clear your period log"
                 + "\nQuit: Close the application");
 
-        choice = input.next();
+        choice = input.nextLine();
         choice = choice.trim().toLowerCase();
         return choice;
     }
@@ -91,14 +91,38 @@ public class PeriodTracker {
      * are entering information for.
      */
     private void logPeriod() {
+        boolean flag = true;
+
         System.out.println("\nWhich day would you like to track for?"
                 + "\n(Please enter a date in this format: yyyy-m-d):");
 
-        date = parseDate(input.next());
-        input.nextLine();
+        date = parseDate(input.nextLine());
         entry = new PeriodEntry(date);
-        myLog.addEntry(entry);
-        logParameters(entry);
+
+        if (myLog.addEntry(entry)) {
+            logParameters(entry);
+        } else {
+            
+
+            do {
+                System.out.println("\nAn entry already exists for this date. Please try again.");
+
+                choice = input.nextLine();
+                choice.toLowerCase();
+
+                if (choice.equals("modify")) {
+                    flag = true;
+                    modifyEntry();
+                } else if (choice.equals("go back")) {
+                    return;
+                } else {
+                    System.out.println("Invalid input, please try again.");
+                    flag = false;
+                }
+            } while (!flag);
+
+        }
+
     }
 
     /*
@@ -110,7 +134,7 @@ public class PeriodTracker {
         System.out.println("\nWhich day would you like to modify the entry for?"
                 + "\n(Please enter a date in this format: yyyy-m-d):");
 
-        date = parseDate(input.next());
+        date = parseDate(input.nextLine());
 
         PeriodEntry result = myLog.getEntry(date);
 
@@ -146,7 +170,7 @@ public class PeriodTracker {
      * provided.
      */
     private void analyze() {
-        // stub
+        //stub
     }
 
     /*
@@ -154,8 +178,6 @@ public class PeriodTracker {
      * entries and displays accordingly.
      */
     private void viewLog() {
-        System.out.println("\nIn viewLog...");
-        // System.out.println(entry);
         System.out.println(myLog.getLog());
     }
 
@@ -206,12 +228,11 @@ public class PeriodTracker {
     }
 
     private void modify(PeriodEntry result, String choice) {
-
         if (choice.equals("heaviness")) {
             logHeaviness(result);
         } else if (choice.equals("pain areas")) {
             result.resetPain();
-            logHeaviness(result);
+            logPainAreas(result);
         } else if (choice.equals("collection method")) {
             result.resetCollectionMethodNumUsed();
             logCollection(result);
@@ -334,7 +355,26 @@ public class PeriodTracker {
      * EFFECTS: logs feelings for the entry chosen by the user.
      */
     private void logFeelings(PeriodEntry entry) {
+        boolean recordMore = true;
 
+        do {
+            System.out.println("\nEnter how you are feeling today: "
+                    + "\nHappy" + "\nSad" + "\nSensitive" + "\nAnxious" + "\nAngry" + "\nMood swings"
+                    + "\n(Please choose one at a time. Enter \"Done\" once done.)");
+
+            choice = input.nextLine();
+            choice = choice.toLowerCase();
+
+            if (choice.equals("happy") || choice.equals("sad")
+                    || choice.equals("sensitive") || choice.equals("anxious")
+                    || choice.equals("angry") || choice.equals("mood swings")) {
+                entry.logFeelings(choice);
+            } else if (choice.equals("done")) {
+                recordMore = false;
+            } else {
+                System.out.println("\nInvalid input, please try again.");
+            }
+        } while (recordMore);
     }
 
     /*
