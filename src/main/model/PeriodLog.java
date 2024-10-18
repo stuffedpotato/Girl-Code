@@ -142,7 +142,7 @@ public class PeriodLog {
             return ("Nothing to display");
         }
 
-        String result = "";
+        String result = "\n";
 
         for (int i = 0; i < myLog.size(); i++) {
             result = result + myLog.get(i);

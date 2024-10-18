@@ -6,6 +6,12 @@ import java.util.Scanner;
 import model.PeriodEntry;
 import model.PeriodLog;
 
+/*
+ * This is the primary class that runs the period tracker application. 
+ * It provides user with multiple options to work with the application 
+ * including adding an entry, modifying an entry, viewing their log 
+ * and analyzing information entered.
+ */
 public class PeriodTracker {
     private PeriodLog myLog;
     private PeriodEntry entry;
@@ -102,7 +108,6 @@ public class PeriodTracker {
         if (myLog.addEntry(entry)) {
             logParameters(entry);
         } else {
-            
 
             do {
                 System.out.println("\nAn entry already exists for this date. Please try again.");
@@ -170,7 +175,28 @@ public class PeriodTracker {
      * provided.
      */
     private void analyze() {
-        //stub
+        boolean runAnalyze = true;
+
+        do {
+            System.out.println("\nWhat would you like to analyze?: "
+                    + "\nAverage cycle length"
+                    + "\n(Please choose one at a time. Enter \\\"Done\\\" if done.)");
+
+            choice = input.nextLine();
+            choice = choice.toLowerCase();
+
+            if (choice.equals("average cycle length")) {
+                int averageCycleLength = myLog.getAverageCycleLength();
+
+                if (myLog.getLog().isEmpty()) {
+                    System.out.println("\nYour log is empty. Please create some entries for analyzation");
+                } else {
+                    System.out.println("\nYour average cycle length is " + averageCycleLength + " days.");
+                }
+            } else if (choice.equals("done")) {
+                runAnalyze = false;
+            }
+        } while (runAnalyze);
     }
 
     /*
@@ -178,7 +204,7 @@ public class PeriodTracker {
      * entries and displays accordingly.
      */
     private void viewLog() {
-        System.out.println(myLog.getLog());
+        System.out.println("\n" + myLog.getLog());
     }
 
     /*
