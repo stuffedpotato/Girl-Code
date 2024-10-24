@@ -13,6 +13,9 @@ import model.PeriodLog;
  * and analyzing information entered.
  */
 public class PeriodTracker {
+    private static final String JSON_DIRECTORY = "./data/mylog.json";
+    // stub for JsonReader, JsonWriter
+    
     private PeriodLog myLog;
     private PeriodEntry entry;
     private Scanner input;
@@ -64,6 +67,8 @@ public class PeriodTracker {
                 + "\nAnalyze: Analyze your period log"
                 + "\nView: View your period log"
                 + "\nClear: Clear your period log"
+                + "\nSave: Save this period log"
+                + "\nLoad: Load previous period log"
                 + "\nQuit: Close the application");
 
         choice = input.nextLine();
@@ -87,6 +92,10 @@ public class PeriodTracker {
             viewLog();
         } else if (choice.equals("clear")) {
             clearLog();
+        } else if (choice.equals("save")) {
+            //stub
+        } else if (choice.equals("load")) {
+            //stub
         } else {
             System.out.println("\nInvalid input, please try again.");
         }
@@ -217,6 +226,21 @@ public class PeriodTracker {
             System.out.println("\nNo entries available to be removed from the log.");
         }
 
+    }
+
+    /*
+     * REQUIRES: !myLog.isEmpty()
+     * EFFECTS: saves the current log that user is working with. Replaces any previously saved work.
+     */
+    private void saveLog() {
+        //stub
+    }
+
+    /*
+     * EFFECTS: loads previously saved period log that user can work with.
+     */
+    private void loadLog() {
+        //stub
     }
 
     /*

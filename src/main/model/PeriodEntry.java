@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import persistence.Writable;
+
 /*
  * This class represents a single period entry created by the user. 
  * It logs details of the period entry along with the date the entry corresponds to.
  */
-public class PeriodEntry {
+public class PeriodEntry implements Writable {
 
     private LocalDate date;
     private int heavinessLevel;

@@ -1,6 +1,11 @@
 package model;
 
 import java.util.List;
+
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -9,7 +14,7 @@ import java.util.ArrayList;
  * It also has methods to access all/any entries as well as 
  * has methods that can be called if user wants to analyze their period log.
  */
-public class PeriodLog {
+public class PeriodLog implements Writable {
     private List<PeriodEntry> myLog;
 
     /*
@@ -149,5 +154,10 @@ public class PeriodLog {
         }
 
         return result;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        // stub
     }
 }
