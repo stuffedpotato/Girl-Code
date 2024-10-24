@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import persistence.Writable;
 
 /*
@@ -31,7 +34,6 @@ public class PeriodEntry implements Writable {
         painAreas = new ArrayList<String>();
         feelingsList = new ArrayList<String>();
         breastConditions = new ArrayList<String>();
-
     }
 
     /*
@@ -233,5 +235,31 @@ public class PeriodEntry implements Writable {
         }
 
         return (result + "\n");
+    }
+
+    /*
+     * Referenced from JSONSerializationDemo
+     * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+     */
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObj = new JSONObject();
+
+        jsonObj.put("Date", date);
+        jsonObj.put("Heaviness", heavinessLevel);
+        jsonObj.put("Collection method", collectionMethod);
+        jsonObj.put("Total number of products used", totalNumProductsUsed);
+
+        if (!painAreas.isEmpty()) {
+            jsonObj.put("Areas of pain", painAreas);
+        }
+        if (!feelingsList.isEmpty()) {
+            jsonObj.put("Feelings", feelingsList);
+        }
+        if (!breastConditions.isEmpty()) {
+            jsonObj.put("Breast health", breastConditions);
+        }
+
+        return jsonObj;
     }
 }

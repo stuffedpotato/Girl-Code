@@ -15,7 +15,7 @@ import model.PeriodLog;
 public class PeriodTracker {
     private static final String JSON_DIRECTORY = "./data/mylog.json";
     // stub for JsonReader, JsonWriter
-    
+
     private PeriodLog myLog;
     private PeriodEntry entry;
     private Scanner input;
@@ -28,7 +28,7 @@ public class PeriodTracker {
      * application by calling the run method.
      */
     public PeriodTracker() {
-        myLog = new PeriodLog();
+        myLog = new PeriodLog(LocalDate.now());
         input = new Scanner(System.in);
         run();
     }

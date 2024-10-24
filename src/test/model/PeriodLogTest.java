@@ -20,7 +20,7 @@ public class PeriodLogTest {
     
     @BeforeEach
     void runBefore() {
-        testLog = new PeriodLog();
+        testLog = new PeriodLog(LocalDate.now());
 
         date1 = LocalDate.now();
         date2 = LocalDate.of(2024,10,05);
@@ -33,6 +33,7 @@ public class PeriodLogTest {
     void testConstructor() {
         testList = testLog.getLog();
         assertEquals(0, testList.size());
+        assertEquals(LocalDate.now(), testLog.getDate());
     }
 
     @Test

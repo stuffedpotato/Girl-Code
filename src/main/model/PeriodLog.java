@@ -2,6 +2,7 @@ package model;
 
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import persistence.Writable;
@@ -16,12 +17,14 @@ import java.util.ArrayList;
  */
 public class PeriodLog implements Writable {
     private List<PeriodEntry> myLog;
+    private LocalDate date;
 
     /*
      * EFFECTS: creates an instance of PeriodLog by creating an array list to store
-     * PeriodEntry entries.
+     * PeriodEntry entries. Saves the date when this PeriodLog was created.
      */
-    public PeriodLog() {
+    public PeriodLog(LocalDate date) {
+        this.date = date;
         myLog = new ArrayList<PeriodEntry>();
     }
 
@@ -88,6 +91,13 @@ public class PeriodLog implements Writable {
     }
 
     /*
+     * EFFECTS: returns the date on which this PeriodLog was created.
+     */
+    public LocalDate getDate() {
+       return date; 
+    }
+
+    /*
      * REQUIRES: myLog must not be null and entry must not be null.
      * EFFECTS: checks to see if entry already exists in myLog and returns true if
      * found.
@@ -147,7 +157,7 @@ public class PeriodLog implements Writable {
             return ("Nothing to display");
         }
 
-        String result = "\n";
+        String result = "\n Date created: " + date;
 
         for (int i = 0; i < myLog.size(); i++) {
             result = result + myLog.get(i);
@@ -156,8 +166,30 @@ public class PeriodLog implements Writable {
         return result;
     }
 
+    /*
+     * Referenced from JSONSerializationDemo
+     * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+     */
     @Override
     public JSONObject toJson() {
-        // stub
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("Date saved", date);
+        jsonObj.put("Period entries", entriesToJson());
+        return jsonObj;
+    }
+
+    /*
+     * EFFECTS: returns entries in this PeriodLog as a JSON array.
+     * Referenced from JSONSerializationDemo
+     * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+     */
+    private JSONArray entriesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (PeriodEntry entry : myLog) {
+            jsonArray.put(entry.toJson());
+        }
+
+        return jsonArray;
     }
 }

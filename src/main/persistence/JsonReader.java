@@ -1,5 +1,6 @@
 package persistence;
 
+import model.PeriodEntry;
 import model.PeriodLog;
 
 import java.io.IOException;
@@ -7,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
+
+import java.time.LocalDate;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -53,29 +56,59 @@ public class JsonReader {
      * EFFECTS: parses myLog from JSON object and returns it.
      */
     private PeriodLog parsePeriodLog(JSONObject jsonObject) {
-        String date = jsonObject.getString("Date saved");
-        PeriodLog myLog = new PeriodLog(name);
-        addThingies(wr, jsonObject);
-        return wr;
+        LocalDate dateSaved = (LocalDate) jsonObject.get("Date saved");
+        PeriodLog myLog = new PeriodLog(dateSaved);
+        addEntries(myLog, jsonObject);
+        return myLog;
     }
 
-    // MODIFIES: wr
-    // EFFECTS: parses thingies from JSON object and adds them to workroom
-    private void addThingies(WorkRoom wr, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("thingies");
+    /*
+     * MODIFIES: PeriodLog myLog
+     * EFFECTS: parses PeriodEntry entries from JSON object and adds them to myLog.
+     */
+    private void addEntries(PeriodLog myLog, JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("Period entries");
         for (Object json : jsonArray) {
-            JSONObject nextThingy = (JSONObject) json;
-            addThingy(wr, nextThingy);
+            JSONObject nextEntry = (JSONObject) json;
+            addEntry(myLog, nextEntry);
         }
     }
 
-    // MODIFIES: wr
-    // EFFECTS: parses thingy from JSON object and adds it to workroom
-    private void addThingy(WorkRoom wr, JSONObject jsonObject) {
-        String name = jsonObject.getString("name");
-        Category category = Category.valueOf(jsonObject.getString("category"));
-        Thingy thingy = new Thingy(name, category);
-        wr.addThingy(thingy);
-    }
+    /*
+     * MODIFIES: PeriodLog myLog
+     * EFFECTS: parses an entry from JSON object and adds it to myLog.
+     */
+    private void addEntry(PeriodLog myLog, JSONObject jsonObject) {
+        String date = jsonObject.getString("Date");
+        PeriodEntry entry = new PeriodEntry(LocalDate.parse(date));
 
+        entry.logHeaviness(jsonObject.getInt("Heaviness"));
+        entry.logCollectionMethod(jsonObject.getString("Collection method"), jsonObject.getInt("Total number of products used"));
+
+        if (jsonObject.has("Areas of pain")) {
+            JSONArray areas = jsonObject.getJSONArray("Areas of pain");
+
+            for (int i = 0; i < areas.length(); i++) {
+                entry.logPain(areas.getString(i));
+            }
+        }
+
+        if (jsonObject.has("Feelings")) {
+            JSONArray feelings = jsonObject.getJSONArray("Feelings");
+
+            for (int i = 0; i < feelings.length(); i++) {
+                entry.logFeelings(feelings.getString(i));
+            }
+        }
+
+        if (jsonObject.has("Breast health")) {
+            JSONArray breastConditions = jsonObject.getJSONArray("Breast health");
+
+            for (int i = 0; i < breastConditions.length(); i++) {
+                entry.logBreastHealth(breastConditions.getString(i));
+            }
+        }
+
+        myLog.addEntry(entry);
+    }
 }
