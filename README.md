@@ -21,4 +21,6 @@ Women's health has always been extremely important to me, especially breast heal
 - As a user, I want to be able to modify an entry.
 - As a user, I want to be able to clear my log.
 - As a user, I want to be able to analyze my cycle information (average cycle length, breast health etc.).
+- As a user, I want to be able to save my daily period log.
+- As a user, I want to be able to load my period log.
 - Potentially: As a user, I want to be able to check predictions for my next cycle based on previously entered data.
