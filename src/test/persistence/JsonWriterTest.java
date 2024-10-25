@@ -57,17 +57,8 @@ public class JsonWriterTest extends JsonTest {
         try {
             log = new PeriodLog(LocalDate.now());
             PeriodEntry entry1 = new PeriodEntry(LocalDate.of(2024, 10, 14));
-            entry1.logHeaviness(0);
-            entry1.logCollectionMethod("Tampons", 2);
-            entry1.logFeelings("Sensitive");
-            entry1.logFeelings("Anxious");
-            entry1.logBreastHealth("Lumpy");
-
             PeriodEntry entry2 = new PeriodEntry(LocalDate.of(2024, 10, 11));
-            entry1.logHeaviness(1);
-            entry1.logCollectionMethod("Pads", 3);
-            entry1.logPain("Back");
-            entry1.logPain("Breasts");
+            logEntry(entry1, entry2);
 
             log.addEntry(entry1);
             log.addEntry(entry2);
@@ -87,5 +78,21 @@ public class JsonWriterTest extends JsonTest {
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }
+    }
+
+    /*
+     * EFFECTS: helper method - logs data fields for entry1 and entry2
+     */
+    private void logEntry(PeriodEntry entry1, PeriodEntry entry2) {
+        entry1.logHeaviness(0);
+        entry1.logCollectionMethod("Tampons", 2);
+        entry1.logFeelings("Sensitive");
+        entry1.logFeelings("Anxious");
+        entry1.logBreastHealth("Lumpy");
+
+        entry2.logHeaviness(1);
+        entry2.logCollectionMethod("Pads", 3);
+        entry2.logPain("Back");
+        entry2.logPain("Breasts");
     }
 }

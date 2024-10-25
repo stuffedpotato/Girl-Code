@@ -56,8 +56,8 @@ public class JsonReader {
      * EFFECTS: parses myLog from JSON object and returns it.
      */
     private PeriodLog parsePeriodLog(JSONObject jsonObject) {
-        LocalDate dateSaved = (LocalDate) jsonObject.get("Date saved");
-        PeriodLog myLog = new PeriodLog(dateSaved);
+        String dateSaved = jsonObject.getString("Date saved");
+        PeriodLog myLog = new PeriodLog(LocalDate.parse(dateSaved));
         addEntries(myLog, jsonObject);
         return myLog;
     }
@@ -82,6 +82,15 @@ public class JsonReader {
         String date = jsonObject.getString("Date");
         PeriodEntry entry = new PeriodEntry(LocalDate.parse(date));
 
+        logFields(myLog, entry, jsonObject);
+
+    }
+
+    /*
+     * MODIFIES: PeriodLog myLog
+     * EFFECTS: parses fields of each entry and logs the entry. Adds entry to myLog.
+     */
+    private void logFields(PeriodLog myLog, PeriodEntry entry, JSONObject jsonObject) {
         entry.logHeaviness(jsonObject.getInt("Heaviness"));
         entry.logCollectionMethod(jsonObject.getString("Collection method"),
                 jsonObject.getInt("Total number of products used"));
