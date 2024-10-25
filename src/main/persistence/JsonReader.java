@@ -30,7 +30,7 @@ public class JsonReader {
     }
 
     /*
-     * EFFECTS: reads myLog from file and returns it;
+     * EFFECTS: reads mylog from source and returns it;
      * throws IOException if an error occurs reading data from file.
      */
     public PeriodLog read() throws IOException {
@@ -58,6 +58,7 @@ public class JsonReader {
     private PeriodLog parsePeriodLog(JSONObject jsonObject) {
         String dateSaved = jsonObject.getString("Date saved");
         PeriodLog myLog = new PeriodLog(LocalDate.parse(dateSaved));
+
         addEntries(myLog, jsonObject);
         return myLog;
     }
@@ -68,6 +69,7 @@ public class JsonReader {
      */
     private void addEntries(PeriodLog myLog, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("Period entries");
+        
         for (Object json : jsonArray) {
             JSONObject nextEntry = (JSONObject) json;
             addEntry(myLog, nextEntry);

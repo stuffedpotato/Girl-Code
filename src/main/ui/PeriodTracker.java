@@ -13,8 +13,8 @@ import persistence.JsonWriter;
 /*
  * This is the primary class that runs the period tracker application. 
  * It provides user with multiple options to work with the application 
- * including adding an entry, modifying an entry, viewing their log 
- * and analyzing information entered.
+ * including adding an entry, modifying an entry, viewing their log, 
+ * saving and loading log, and analyzing information entered.
  */
 public class PeriodTracker {
     private static final String JSON_DIRECTORY = "./data/mylog.json";
@@ -125,7 +125,7 @@ public class PeriodTracker {
             do {
                 System.out.println(
                         "\nAn entry already exists for this date. \nTo modify, enter \"Modify\". "
-                        + "To return to the main menu, enter \"Return\":");
+                                + "To return to the main menu, enter \"Return\":");
 
                 choice = input.nextLine().toLowerCase();
 
@@ -133,7 +133,7 @@ public class PeriodTracker {
                     flag = true;
                     modifyEntry();
                 } else if (choice.equals("return")) {
-                    return;
+                    flag = true;
                 } else {
                     System.out.println("Invalid input, please try again.");
                     flag = false;
@@ -212,8 +212,7 @@ public class PeriodTracker {
     }
 
     /*
-     * EFFECTS: asks user if they want to view a particular entry or view all the
-     * entries and displays accordingly.
+     * EFFECTS: prints all the entries in the log.
      */
     private void viewLog() {
         System.out.println("\n" + myLog.getLog());
@@ -232,7 +231,6 @@ public class PeriodTracker {
     }
 
     /*
-     * REQUIRES: !myLog.isEmpty()
      * EFFECTS: saves the current log that user is working with. Replaces any
      * previously saved work.
      * Referenced from JSONSerializationDemo
@@ -243,9 +241,9 @@ public class PeriodTracker {
             writer.open();
             writer.write(myLog);
             writer.close();
-            System.out.println("Saved " + myLog.getDate() + "'s log to " + JSON_DIRECTORY);
+            System.out.println("Saved " + myLog.getDate() + "'s log to " + JSON_DIRECTORY +".");
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + JSON_DIRECTORY);
+            System.out.println("Unable to write to file: " + JSON_DIRECTORY +".");
         }
     }
 
@@ -300,7 +298,8 @@ public class PeriodTracker {
     /*
      * REQUIRES: result must not be null, choice must not be null.
      * MODIFIES: result, myLog
-     * EFFECTS: modifies the given PeriodEntry result's fields as chosen by the user.
+     * EFFECTS: modifies the given PeriodEntry result's fields as chosen by the
+     * user.
      */
     private void modify(PeriodEntry result, String choice) {
         if (choice.equals("heaviness")) {
