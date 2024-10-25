@@ -117,5 +117,6 @@ public class PeriodEntryTest {
     @Test
     void testToString() {
         assertTrue(testEntry1.toString().contains("Date: " + date1));
+        
     }
 }

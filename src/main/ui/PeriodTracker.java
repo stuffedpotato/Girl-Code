@@ -1,10 +1,14 @@
 package ui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
 import model.PeriodEntry;
 import model.PeriodLog;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 /*
  * This is the primary class that runs the period tracker application. 
@@ -14,8 +18,8 @@ import model.PeriodLog;
  */
 public class PeriodTracker {
     private static final String JSON_DIRECTORY = "./data/mylog.json";
-    // stub for JsonReader, JsonWriter
-
+    private JsonWriter writer;
+    private JsonReader reader;
     private PeriodLog myLog;
     private PeriodEntry entry;
     private Scanner input;
@@ -27,9 +31,11 @@ public class PeriodTracker {
      * EFFECTS: creates an instance of the PeriodTracker application and runs the
      * application by calling the run method.
      */
-    public PeriodTracker() {
+    public PeriodTracker() throws FileNotFoundException {
         myLog = new PeriodLog(LocalDate.now());
         input = new Scanner(System.in);
+        writer = new JsonWriter(JSON_DIRECTORY);
+        reader = new JsonReader(JSON_DIRECTORY);
         run();
     }
 
@@ -53,7 +59,7 @@ public class PeriodTracker {
             }
         }
 
-        System.out.println("\nThank you for using this application, goodbye!");
+        System.out.println("\nThank you for using this application, goodbye!\n");
     }
 
     /*
@@ -93,9 +99,9 @@ public class PeriodTracker {
         } else if (choice.equals("clear")) {
             clearLog();
         } else if (choice.equals("save")) {
-            // stub
+            saveLog();
         } else if (choice.equals("load")) {
-            // stub
+            loadLog();
         } else {
             System.out.println("\nInvalid input, please try again.");
         }
@@ -111,32 +117,29 @@ public class PeriodTracker {
         System.out.println("\nWhich day would you like to track for?"
                 + "\n(Please enter a date in this format: yyyy-m-d):");
 
-        date = parseDate(input.nextLine());
-        entry = new PeriodEntry(date);
+        entry = new PeriodEntry(parseDate(input.nextLine()));
 
         if (myLog.addEntry(entry)) {
             logParameters(entry);
         } else {
-
             do {
-                System.out.println("\nAn entry already exists for this date. Please try again.");
+                System.out.println(
+                        "\nAn entry already exists for this date. \nTo modify, enter \"Modify\". "
+                        + "To return to the main menu, enter \"Return\":");
 
-                choice = input.nextLine();
-                choice.toLowerCase();
+                choice = input.nextLine().toLowerCase();
 
                 if (choice.equals("modify")) {
                     flag = true;
                     modifyEntry();
-                } else if (choice.equals("go back")) {
+                } else if (choice.equals("return")) {
                     return;
                 } else {
                     System.out.println("Invalid input, please try again.");
                     flag = false;
                 }
             } while (!flag);
-
         }
-
     }
 
     /*
@@ -232,16 +235,32 @@ public class PeriodTracker {
      * REQUIRES: !myLog.isEmpty()
      * EFFECTS: saves the current log that user is working with. Replaces any
      * previously saved work.
+     * Referenced from JSONSerializationDemo
+     * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
      */
     private void saveLog() {
-        // stub
+        try {
+            writer.open();
+            writer.write(myLog);
+            writer.close();
+            System.out.println("Saved " + myLog.getDate() + "'s log to " + JSON_DIRECTORY);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_DIRECTORY);
+        }
     }
 
     /*
      * EFFECTS: loads previously saved period log that user can work with.
+     * Referenced from JSONSerializationDemo
+     * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
      */
     private void loadLog() {
-        // stub
+        try {
+            myLog = reader.read();
+            System.out.println("Loaded " + myLog.getDate() + "'s log from " + JSON_DIRECTORY + ".");
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_DIRECTORY + ".");
+        }
     }
 
     /*
@@ -278,6 +297,11 @@ public class PeriodTracker {
         }
     }
 
+    /*
+     * REQUIRES: result must not be null, choice must not be null.
+     * MODIFIES: result, myLog
+     * EFFECTS: modifies the given PeriodEntry result's fields as chosen by the user.
+     */
     private void modify(PeriodEntry result, String choice) {
         if (choice.equals("heaviness")) {
             logHeaviness(result);
