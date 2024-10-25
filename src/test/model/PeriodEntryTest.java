@@ -116,7 +116,17 @@ public class PeriodEntryTest {
 
     @Test
     void testToString() {
+        assertFalse(testEntry1.toString().contains("Areas of pain"));
+        assertFalse(testEntry1.toString().contains("Feelings"));
+        assertFalse(testEntry1.toString().contains("Breast health"));
         assertTrue(testEntry1.toString().contains("Date: " + date1));
-        
+
+        testEntry1.logPain("Back");
+        testEntry1.logFeelings("Sensitive");
+        testEntry1.logBreastHealth("Swollen");
+
+        assertTrue(testEntry1.toString().contains("Areas of pain: " + testEntry1.getPain()));
+        assertTrue(testEntry1.toString().contains("Feelings: " + testEntry1.getFeelingsList()));
+        assertTrue(testEntry1.toString().contains("Breast health: " + testEntry1.getBreastHealth()));
     }
 }

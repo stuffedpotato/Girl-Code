@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -8,7 +9,6 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 /*
  * This class is used to log all period entries and store them. 
