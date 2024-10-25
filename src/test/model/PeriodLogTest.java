@@ -17,13 +17,13 @@ public class PeriodLogTest {
     private List<PeriodEntry> testList;
     private LocalDate date1;
     private LocalDate date2;
-    
+
     @BeforeEach
     void runBefore() {
         testLog = new PeriodLog(LocalDate.now());
 
         date1 = LocalDate.now();
-        date2 = LocalDate.of(2024,10,05);
+        date2 = LocalDate.of(2024, 10, 05);
 
         testEntry1 = new PeriodEntry(date1);
         testEntry2 = new PeriodEntry(date2);
@@ -42,7 +42,7 @@ public class PeriodLogTest {
         testLog.addEntry(testEntry2);
         testList = testLog.getLog();
 
-        //Testing for duplication
+        // Testing for duplication
         testLog.addEntry(new PeriodEntry(LocalDate.of(2024, 10, 05)));
 
         assertEquals(2, testList.size());
@@ -62,7 +62,7 @@ public class PeriodLogTest {
         assertFalse(testLog.clearLog());
     }
 
-    //To test for existence of entry
+    // To test for existence of entry
     @Test
     void testGetEntry() {
         assertEquals(null, testLog.getEntry(date1));
@@ -71,15 +71,15 @@ public class PeriodLogTest {
         testLog.addEntry(testEntry2);
         assertEquals(testEntry1, testLog.getEntry(date1));
 
-        //To test when no entry with the given date exists
+        // To test when no entry with the given date exists
         assertEquals(null, testLog.getEntry(LocalDate.of(2024, 9, 30)));
     }
 
     @Test
     void testGetAverageCycleLength() {
-        //to test for empty log
+        // to test for empty log
         assertEquals(0, testLog.getAverageCycleLength());
-        
+
         testLog.addEntry(testEntry1);
         testLog.addEntry(testEntry2);
         testEntry1.logHeaviness(0);

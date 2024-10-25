@@ -93,9 +93,9 @@ public class PeriodTracker {
         } else if (choice.equals("clear")) {
             clearLog();
         } else if (choice.equals("save")) {
-            //stub
+            // stub
         } else if (choice.equals("load")) {
-            //stub
+            // stub
         } else {
             System.out.println("\nInvalid input, please try again.");
         }
@@ -230,17 +230,18 @@ public class PeriodTracker {
 
     /*
      * REQUIRES: !myLog.isEmpty()
-     * EFFECTS: saves the current log that user is working with. Replaces any previously saved work.
+     * EFFECTS: saves the current log that user is working with. Replaces any
+     * previously saved work.
      */
     private void saveLog() {
-        //stub
+        // stub
     }
 
     /*
      * EFFECTS: loads previously saved period log that user can work with.
      */
     private void loadLog() {
-        //stub
+        // stub
     }
 
     /*

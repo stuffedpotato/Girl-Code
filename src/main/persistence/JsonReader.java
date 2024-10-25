@@ -30,7 +30,7 @@ public class JsonReader {
     }
 
     /*
-     * EFFECTS: reads myLog from file and returns it; 
+     * EFFECTS: reads myLog from file and returns it;
      * throws IOException if an error occurs reading data from file.
      */
     public PeriodLog read() throws IOException {
@@ -83,7 +83,8 @@ public class JsonReader {
         PeriodEntry entry = new PeriodEntry(LocalDate.parse(date));
 
         entry.logHeaviness(jsonObject.getInt("Heaviness"));
-        entry.logCollectionMethod(jsonObject.getString("Collection method"), jsonObject.getInt("Total number of products used"));
+        entry.logCollectionMethod(jsonObject.getString("Collection method"),
+                jsonObject.getInt("Total number of products used"));
 
         if (jsonObject.has("Areas of pain")) {
             JSONArray areas = jsonObject.getJSONArray("Areas of pain");

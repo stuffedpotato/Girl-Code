@@ -45,7 +45,7 @@ public class PeriodEntryTest {
         testEntry1.logPain("Back");
         testEntry1.logPain("Breasts");
         List<String> result = testEntry1.getPain();
-        
+
         assertEquals(2, result.size());
         assertEquals("Back", result.get(0));
         assertEquals("Breasts", result.get(1));

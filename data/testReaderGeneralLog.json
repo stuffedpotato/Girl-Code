@@ -1,0 +1,20 @@
+{
+    "Period entries": [
+        {
+            "Date": "2024-10-14",
+            "Heaviness": 0,
+            "Collection method": "Tampons",
+            "Total number of products used": 2,
+            "Feelings": ["Sensitive", "Anxious"],
+            "Breast health": ["Lumpy"]
+        },
+        {
+            "Date": "2024-10-11",
+            "Heaviness": 1,
+            "Collection method": "Pads",
+            "Total number of products used": 3,
+            "Areas of pain": ["Back", "Breasts"]
+        }
+    ],
+    "Date saved": "2024-10-11"
+}

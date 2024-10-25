@@ -44,7 +44,7 @@ public class PeriodLog implements Writable {
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -91,17 +91,23 @@ public class PeriodLog implements Writable {
     }
 
     /*
+     * EFFECTS: returns the total number of entries in this log.
+     */
+    public int getNumEntries() {
+        return myLog.size();
+    }
+
+    /*
      * EFFECTS: returns the date on which this PeriodLog was created.
      */
     public LocalDate getDate() {
-       return date; 
+        return date;
     }
 
     /*
      * REQUIRES: myLog must not be null and entry must not be null.
      * EFFECTS: checks to see if entry already exists in myLog and returns true if
-     * found.
-     * Returns false otherwise.
+     * found. Returns false otherwise.
      */
     private boolean findEntry(PeriodEntry entry) {
         LocalDate date = entry.getDate();
