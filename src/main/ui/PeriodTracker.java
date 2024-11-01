@@ -117,7 +117,8 @@ public class PeriodTracker {
         System.out.println("\nWhich day would you like to track for?"
                 + "\n(Please enter a date in this format: yyyy-m-d):");
 
-        entry = new PeriodEntry(parseDate(input.nextLine()));
+        date = parseDate(input.nextLine());
+        entry = new PeriodEntry(date);
 
         if (myLog.addEntry(entry)) {
             logParameters(entry);
@@ -128,12 +129,11 @@ public class PeriodTracker {
                                 + "To return to the main menu, enter \"Return\":");
 
                 choice = input.nextLine().toLowerCase();
-
+                flag = true;
                 if (choice.equals("modify")) {
-                    flag = true;
                     modifyEntry();
                 } else if (choice.equals("return")) {
-                    flag = true;
+                    // do nothing - pass
                 } else {
                     System.out.println("Invalid input, please try again.");
                     flag = false;
@@ -241,9 +241,9 @@ public class PeriodTracker {
             writer.open();
             writer.write(myLog);
             writer.close();
-            System.out.println("Saved " + myLog.getDate() + "'s log to " + JSON_DIRECTORY +".");
+            System.out.println("Saved " + myLog.getDate() + "'s log to " + JSON_DIRECTORY + ".");
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + JSON_DIRECTORY +".");
+            System.out.println("Unable to write to file: " + JSON_DIRECTORY + ".");
         }
     }
 

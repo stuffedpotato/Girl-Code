@@ -1,4 +1,18 @@
 {
-    "Period entries": [],
-    "Date saved": "2024-10-24"
+    "Period entries": [
+        {
+            "Total number of products used": 3,
+            "Collection method": "Tampons",
+            "Heaviness": 0,
+            "Breast health": ["Healthy"],
+            "Date": "2024-10-11",
+            "Areas of pain": ["Back"]
+        },
+        {
+            "Total number of products used": 0,
+            "Heaviness": 3,
+            "Date": "2024-10-12"
+        }
+    ],
+    "Date saved": "2024-11-01"
 }

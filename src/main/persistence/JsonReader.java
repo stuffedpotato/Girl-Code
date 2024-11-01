@@ -69,7 +69,7 @@ public class JsonReader {
      */
     private void addEntries(PeriodLog myLog, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("Period entries");
-        
+
         for (Object json : jsonArray) {
             JSONObject nextEntry = (JSONObject) json;
             addEntry(myLog, nextEntry);
@@ -94,8 +94,15 @@ public class JsonReader {
      */
     private void logFields(PeriodLog myLog, PeriodEntry entry, JSONObject jsonObject) {
         entry.logHeaviness(jsonObject.getInt("Heaviness"));
-        entry.logCollectionMethod(jsonObject.getString("Collection method"),
-                jsonObject.getInt("Total number of products used"));
+
+        logEntry(myLog, entry, jsonObject);
+    }
+
+    private void logEntry(PeriodLog myLog, PeriodEntry entry, JSONObject jsonObject) {
+        if (jsonObject.has("Collection method")) {
+            entry.logCollectionMethod(jsonObject.getString("Collection method"),
+                    jsonObject.getInt("Total number of products used"));
+        }
 
         if (jsonObject.has("Areas of pain")) {
             JSONArray areas = jsonObject.getJSONArray("Areas of pain");
