@@ -16,7 +16,7 @@ import persistence.JsonWriter;
  * including adding an entry, modifying an entry, viewing their log, 
  * saving and loading log, and analyzing information entered.
  */
-public class PeriodTracker {
+public class PeriodTrackerConsole {
     private static final String JSON_DIRECTORY = "./data/mylog.json";
     private JsonWriter writer;
     private JsonReader reader;
@@ -31,7 +31,7 @@ public class PeriodTracker {
      * EFFECTS: creates an instance of the PeriodTracker application and runs the
      * application by calling the run method.
      */
-    public PeriodTracker() throws FileNotFoundException {
+    public PeriodTrackerConsole() throws FileNotFoundException {
         myLog = new PeriodLog(LocalDate.now());
         input = new Scanner(System.in);
         writer = new JsonWriter(JSON_DIRECTORY);
