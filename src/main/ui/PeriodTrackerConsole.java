@@ -192,7 +192,7 @@ public class PeriodTrackerConsole {
         do {
             System.out.println("\nWhat would you like to analyze?: "
                     + "\nAverage cycle length"
-                    + "\n(Please choose one at a time. Enter \\\"Done\\\" if done.)");
+                    + "\n(Please choose one at a time. Enter \"Done\" if done.)");
 
             choice = input.nextLine();
             choice = choice.toLowerCase();
@@ -207,15 +207,40 @@ public class PeriodTrackerConsole {
                 }
             } else if (choice.equals("done")) {
                 runAnalyze = false;
+            } else {
+                System.out.println("\nInvalid input, please try again.");
             }
         } while (runAnalyze);
     }
 
     /*
-     * EFFECTS: prints all the entries in the log.
+     * EFFECTS: prints all the entries in the log or a particular entry per user's request.
      */
     private void viewLog() {
-        System.out.println("\n" + myLog.getLog());
+        boolean runViewLog = true;
+
+        do {
+            System.out.println("\nWould you like to view entry for a particular day or all entries?: "
+                    + "\nParticular day"
+                    + "\nAll entries"
+                    + "\n(Please choose one at a time. Enter \"Done\" if done.)");
+
+            choice = input.nextLine().toLowerCase();
+
+            if (choice.equals("all entries")) {
+                System.out.println("\n" + myLog.getLog());
+            } else if (choice.equals("particular day")) {
+                System.out.println("\nPlease enter the day you would like to view: ");
+                String date = input.nextLine();
+                System.out.println("\n" + myLog.getEntry(parseDate(date)));
+            } else if (choice.equals("done")) {
+                runViewLog = false;
+            } else {
+                System.out.println("\nInvalid input, please try again.");
+            }
+        } while (runViewLog);
+
+        
     }
 
     /*
