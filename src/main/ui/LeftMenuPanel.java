@@ -20,7 +20,8 @@ public class LeftMenuPanel extends JPanel {
     private JButton view;
 
     /*
-     * REQUIRES: listener must not be empty, height = height of the application window.
+     * REQUIRES: listener must not be empty, height = height of the application
+     * window.
      * MODIFIES: this
      * EFFECTS: creates an object of the left menu panel.
      */
@@ -37,9 +38,10 @@ public class LeftMenuPanel extends JPanel {
      * buttons in it.
      */
     private void setup() {
-        this.setLayout(new GridLayout(4,1, 0, 0));
+        this.setLayout(new GridLayout(4, 1, 0, 0));
         this.setPreferredSize(new Dimension(200, height));
         this.setBackground(new Color(248, 211, 224));
+        this.setBorder(BorderFactory.createEmptyBorder());
 
         track = new JButton("Track");
         modify = new JButton("Modify");

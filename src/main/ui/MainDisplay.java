@@ -18,7 +18,8 @@ public class MainDisplay extends JPanel {
     /*
      * REQUIRES: listener must not be null.
      * MODIFIES: this, PeriodTrackerController
-     * EFFECTS: creates an object of the main center display of the application using CardLayout.
+     * EFFECTS: creates an object of the main center display of the application
+     * using CardLayout.
      */
     public MainDisplay(ActionListener listener) {
         this.listener = listener;
@@ -35,6 +36,7 @@ public class MainDisplay extends JPanel {
      */
     private void setup() {
         this.setLayout(layout);
+        this.setBorder(BorderFactory.createEmptyBorder());
         this.add(trackPage, "TrackPage");
         this.add(homePage, "HomePage");
     }
@@ -46,5 +48,13 @@ public class MainDisplay extends JPanel {
      */
     public void displayPage(String page) {
         layout.show(this, page);
+    }
+
+    public TrackPage getTrackPage() {
+        return trackPage;
+    }
+
+    public HomePage getHomePage() {
+        return homePage;
     }
 }

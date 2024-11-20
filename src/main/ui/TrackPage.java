@@ -4,11 +4,17 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.*;
 import java.awt.*;
 
 import java.awt.event.ActionListener;
 
+/*
+ * This class creates the tracking page of the application.
+ */
 public class TrackPage extends JPanel {
     private ActionListener listener;
 
@@ -16,6 +22,7 @@ public class TrackPage extends JPanel {
 
     // All panels
     private BackgroundPanel background;
+    private JPanel logAttributesPanel;
     private JPanel topRow;
     private JPanel logHeavinessPanel;
     private JPanel logCollectionMethodPanel;
@@ -25,7 +32,8 @@ public class TrackPage extends JPanel {
     private JPanel logFeelingsPanel;
 
     // All buttons
-    private JButton dateButton;
+    private JButton trackButton;
+    private JButton saveButton;
 
     // All labels
     private JLabel dateLabel;
@@ -42,6 +50,7 @@ public class TrackPage extends JPanel {
     private JRadioButton heavinessTwo;
     private JRadioButton heavinessThree;
     private JRadioButton heavinessFour;
+    private ButtonGroup heavinessButtonGroup;
 
     // Collection method options
     private JRadioButton pads;
@@ -49,6 +58,7 @@ public class TrackPage extends JPanel {
     private JRadioButton liners;
     private JRadioButton periodCup;
     private JRadioButton periodUnderwear;
+    private ButtonGroup collectionMethodButtonGroup;
 
     // Pain areas options
     private JCheckBox backPain;
@@ -80,15 +90,27 @@ public class TrackPage extends JPanel {
     private static final Font OPTIONS_FONT = new Font("Helvetica", Font.PLAIN, 20);
     private static final String BACKGROUND_IMAGE = "data/images/background.png";
 
+    /*
+     * REQUIRES: listener must not be null
+     * EFFECTS: creates the tracking page and its components.
+     */
     public TrackPage(ActionListener listener) {
         this.listener = listener;
         setup();
     }
 
+    /*
+     * MODIFIES: this, PeriodTrackerController
+     * EFFECTS: sets up the main tracking display and all other panels inside it.
+     */
     private void setup() {
         setBackground();
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new BorderLayout(0, 0));
+        this.setBorder(BorderFactory.createEmptyBorder());
+
+        logAttributesPanel = new JPanel();
+        logAttributesPanel.setLayout(new BoxLayout(logAttributesPanel, BoxLayout.Y_AXIS));
 
         setTopRowAttributes();
         setLogHeavinessAttributes();
@@ -97,13 +119,17 @@ public class TrackPage extends JPanel {
         setLogPainAreasAttributes();
         setLogBreastHealthAttributes();
         setLogFeelingsAttributes();
+        setSaveButtonAttributes();
 
         this.add(background);
         background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
+        background.setBorder(BorderFactory.createEmptyBorder());
 
         // Adding all logging panels to the main panel
         addPanelsToThis();
         this.setOpaque(false);
+        logAttributesPanel.setOpaque(false);
+        hideLogPanel();
         addListener();
     }
 
@@ -122,13 +148,13 @@ public class TrackPage extends JPanel {
         dateField.setFont(new Font("Helvetica", Font.PLAIN, 25));
         dateField.setToolTipText("Enter the date in yyyy/m/d format");
 
-        dateButton = new JButton("Track");
-        dateButton.setFont(new Font("Helvetica", Font.PLAIN, 20));
-        dateButton.setMargin(new Insets(5, 5, 5, 5));
+        trackButton = new JButton("Track");
+        trackButton.setFont(new Font("Helvetica", Font.PLAIN, 20));
+        trackButton.setMargin(new Insets(5, 5, 5, 5));
 
         topRow.add(dateLabel);
         topRow.add(dateField);
-        topRow.add(dateButton);
+        topRow.add(trackButton);
     }
 
     /*
@@ -153,9 +179,9 @@ public class TrackPage extends JPanel {
         logHeavinessPanel.add(heavinessThree);
         logHeavinessPanel.add(heavinessFour);
 
-        ButtonGroup heavinessButtonGroup = new ButtonGroup();
+        heavinessButtonGroup = new ButtonGroup();
 
-        addRadioButtonsToButtonGroupSetFont(logHeavinessPanel, heavinessButtonGroup);
+        addRadioButtonsToButtonGroup(logHeavinessPanel, heavinessButtonGroup);
         setFont(logHeavinessPanel, OPTIONS_FONT);
 
         logHeaviness.setFont(new Font("Helvetica", Font.BOLD, 20));
@@ -183,9 +209,9 @@ public class TrackPage extends JPanel {
         logCollectionMethodPanel.add(periodCup);
         logCollectionMethodPanel.add(periodUnderwear);
 
-        ButtonGroup collectionMethodButtonGroup = new ButtonGroup();
+        collectionMethodButtonGroup = new ButtonGroup();
 
-        addRadioButtonsToButtonGroupSetFont(logCollectionMethodPanel, collectionMethodButtonGroup);
+        addRadioButtonsToButtonGroup(logCollectionMethodPanel, collectionMethodButtonGroup);
         setFont(logCollectionMethodPanel, OPTIONS_FONT);
 
         logCollectionMethod.setFont(new Font("Helvetica", Font.BOLD, 20));
@@ -193,7 +219,8 @@ public class TrackPage extends JPanel {
 
     /*
      * MODIFIES: this, PeriodTrackerController
-     * EFFECTS: sets up the attributes to collect the number of collection method products used panel.
+     * EFFECTS: sets up the attributes to collect the number of collection method
+     * products used panel.
      */
     private void setLogNumCollectionMethodAttributes() {
         logNumCollectionMethodPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
@@ -264,6 +291,10 @@ public class TrackPage extends JPanel {
         logBreastHealth.setFont(new Font("Helvetica", Font.BOLD, 20));
     }
 
+    /*
+     * MODIFIES: this
+     * EFFECTS: creates the attributes for the feelings panel.
+     */
     private void setLogFeelingsAttributes() {
         logFeelingsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         setJpanelAttributes(logFeelingsPanel);
@@ -291,19 +322,46 @@ public class TrackPage extends JPanel {
 
     /*
      * MODIFIES: this
+     * EFFECTS: creates the attributes of the saveButton of the tracking page.
+     */
+    private void setSaveButtonAttributes() {
+        saveButton = new JButton("Save");
+        saveButton.setFont(new Font("Helvetica", Font.BOLD, 20));
+        saveButton.setMargin(new Insets(10, 10, 10, 10));
+        saveButton.setForeground(Color.RED);
+        saveButton.setBorderPainted(true);
+        saveButton.setToolTipText("Click here to save this entry");
+    }
+
+    /*
+     * MODIFIES: this
      * EFFECTS: adds all panels to this main panel (TrackPage).
      */
     private void addPanelsToThis() {
         background.add(topRow);
-        background.add(logHeavinessPanel);
-        background.add(logCollectionMethodPanel);
-        background.add(logNumCollectionMethodPanel);
-        background.add(logPainAreasPanel);
-        background.add(logFeelingsPanel);
-        background.add(logBreastHealthPanel);
+        logAttributesPanel.add(logHeavinessPanel);
+        logAttributesPanel.add(logCollectionMethodPanel);
+        logAttributesPanel.add(logNumCollectionMethodPanel);
+        logAttributesPanel.add(logPainAreasPanel);
+        logAttributesPanel.add(logFeelingsPanel);
+        logAttributesPanel.add(logBreastHealthPanel);
+        logAttributesPanel.add(saveButton);
+        background.add(logAttributesPanel);
     }
 
+    /*
+     * MODIFIES: this
+     * EFFECTS: adds listener to interactive buttons in this panel.
+     */
     private void addListener() {
+        trackButton.setActionCommand("checkDate");
+        trackButton.addActionListener(listener);
+
+        dateField.setActionCommand("checkDate");
+        dateField.addActionListener(listener);
+
+        saveButton.setActionCommand("saveButton");
+        saveButton.addActionListener(listener);
     }
 
     /*
@@ -321,7 +379,7 @@ public class TrackPage extends JPanel {
      * MODIFIES: this
      * EFFECTS: adds radio buttons in the panel to the btnGroup.
      */
-    private void addRadioButtonsToButtonGroupSetFont(JPanel panel, ButtonGroup btnGroup) {
+    private void addRadioButtonsToButtonGroup(JPanel panel, ButtonGroup btnGroup) {
         for (Component c : panel.getComponents()) {
             if (c instanceof JRadioButton) {
                 JRadioButton radioBtn = (JRadioButton) c;
@@ -360,5 +418,189 @@ public class TrackPage extends JPanel {
         }
 
         background = new BackgroundPanel(backgroundImage);
+    }
+
+    /*
+     * MODIFIES: this, PeriodTrackerController
+     * EFFECTS: displays the logAttributesPanel
+     */
+    protected void showLogPanel() {
+        logAttributesPanel.setVisible(true);
+    }
+
+    /*
+     * MODIFIES: this, PeriodTrackerController
+     * EFFECTS: hides the logAttributesPanel
+     */
+    protected void hideLogPanel() {
+        logAttributesPanel.setVisible(false);
+    }
+
+    /*
+     * MODIFIES: this, PeriodTrackerController
+     * EFFECTS: resets the topRow and logAttributesPanel.
+     */
+    protected void resetLogPanel() {
+        dateField.setText("");
+        heavinessButtonGroup.clearSelection();
+        collectionMethodButtonGroup.clearSelection();
+
+        for (Component comp : logAttributesPanel.getComponents()) {
+            if (comp instanceof JPanel) {
+                JPanel panel = (JPanel) comp;
+
+                for (Component c : panel.getComponents()) {
+                    if (c instanceof JTextField) {
+                        JTextField textField = (JTextField) c;
+                        textField.setText("");
+                    } else if (c instanceof JCheckBox) {
+                        JCheckBox checkBox = (JCheckBox) c;
+                        checkBox.setSelected(false);
+                    }
+                }
+            }
+        }
+    }
+
+    // Getters
+
+    protected String getDate() {
+        return dateField.getText();
+    }
+
+    protected int getHeavinessLevel() {
+        if (heavinessZero.isSelected()) {
+            return 0;
+        } else if (heavinessOne.isSelected()) {
+            return 1;
+        } else if (heavinessTwo.isSelected()) {
+            return 2;
+        } else if (heavinessThree.isSelected()) {
+            return 3;
+        } else if (heavinessFour.isSelected()) {
+            return 4;
+        }
+
+        return -1;
+    }
+
+    protected String getCollectionMethod() {
+        if (pads.isSelected()) {
+            return "Pads";
+        } else if (tampons.isSelected()) {
+            return "Tampons";
+        } else if (liners.isSelected()) {
+            return "Liners";
+        } else if (periodCup.isSelected()) {
+            return "Period cup";
+        } else if (periodUnderwear.isSelected()) {
+            return "Period underwear";
+        }
+
+        return "null";
+    }
+
+    protected int getCollectionNumUsed() {
+        String text = numCollectionMethods.getText();
+
+        if (text == "") {
+            return 0;
+        }
+
+        return parseInt(text);
+    }
+
+    private int parseInt(String text) {
+        try {
+            int num = Integer.parseInt(text);
+            return num;
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    protected List<String> getPainAreas() {
+        List<String> painAreas = new ArrayList<String>();
+
+        for (Component c : logPainAreasPanel.getComponents()) {
+            if (c instanceof JCheckBox) {
+                JCheckBox checkbox = (JCheckBox) c;
+                
+                if (checkbox.isSelected()) {
+                    painAreas.add("" + checkbox.getText());
+                }
+            }
+        } 
+
+        // if (backPain.isSelected()) {
+        //     painAreas.add("back");
+        // }
+        // if (headPain.isSelected()) {
+        //     painAreas.add("head");
+        // }
+        // if (breastPain.isSelected()) {
+        //     painAreas.add("breasts");
+        // }
+        // if (legsPain.isSelected()) {
+        //     painAreas.add("legs");
+        // }
+        // if (jointsPain.isSelected()) {
+        //     painAreas.add("joints");
+        // }
+        // if (vulvarPain.isSelected()) {
+        //     painAreas.add("vulvar");
+        // }
+        // if (ovularPain.isSelected()) {
+        //     painAreas.add("ovulation");
+        // }
+        if (painAreas.size() == 0) {
+            painAreas.add("none");
+        }
+
+        return painAreas;
+    }
+
+    protected List<String> getBreastHealth() {
+        List<String> breastHealth = new ArrayList<String>();
+
+        if (healthyBreasts.isSelected()) {
+            breastHealth.add("healthy");
+        }
+        if (lumpyBreasts.isSelected()) {
+            breastHealth.add("lumpy");
+        }
+        if (tenderBreasts.isSelected()) {
+            breastHealth.add("tender");
+        }
+        if (swollenBreasts.isSelected()) {
+            breastHealth.add("swollen");
+        }
+
+        return breastHealth;
+    }
+
+    protected List<String> getFeelings() {
+        List<String> feelings = new ArrayList<String>();
+
+        if (happy.isSelected()) {
+            feelings.add("happy");
+        }
+        if (sad.isSelected()) {
+            feelings.add("sad");
+        }
+        if (anxious.isSelected()) {
+            feelings.add("anxious");
+        }
+        if (sensitive.isSelected()) {
+            feelings.add("sensitive");
+        }
+        if (angry.isSelected()) {
+            feelings.add("angry");
+        }
+        if (moodSwings.isSelected()) {
+            feelings.add("mood swings");
+        }
+
+        return feelings;
     }
 }

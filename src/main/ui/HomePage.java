@@ -21,13 +21,15 @@ public class HomePage extends JPanel {
      */
     public HomePage() {
         this.setLayout(new BorderLayout());
+        this.setBorder(BorderFactory.createEmptyBorder());
         setBackground();
         this.add(background);
     }
 
     /*
      * Referenced from:
-     * https://stackoverflow.com/questions/1466240/how-to-set-an-image-as-a-background-for-frame-in-swing-gui-of-java
+     * https://stackoverflow.com/questions/1466240/how-to-set-an-image-as-a-
+     * background-for-frame-in-swing-gui-of-java
      * Image taken from:
      * https://www.eka.care/services/be-in-sync-with-your-cycle-tracking-your-
      * menstrual-period
@@ -41,7 +43,7 @@ public class HomePage extends JPanel {
         } catch (IOException e) {
             System.out.println("Unable to access BACKGROUND_IMAGE");
         }
-        
+
         background = new BackgroundPanel(homePageImage);
     }
 }

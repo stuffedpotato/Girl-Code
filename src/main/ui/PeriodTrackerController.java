@@ -5,6 +5,8 @@ import model.PeriodLog;
 import javax.swing.*;
 import java.awt.*;
 
+import java.util.List;
+
 import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +25,8 @@ public class PeriodTrackerController implements ActionListener {
     private MainDisplay mainDisplay;
     private LeftMenuPanel leftMenuPanel;
     private LowerMenuPanel lowerMenuPanel;
+
+    private TrackPage trackPage;
 
     // Main frame
     private JFrame mainWindow;
@@ -43,6 +47,8 @@ public class PeriodTrackerController implements ActionListener {
         mainDisplay = new MainDisplay(this);
         leftMenuPanel = new LeftMenuPanel(this, HEIGHT);
         lowerMenuPanel = new LowerMenuPanel(this);
+
+        this.trackPage = mainDisplay.getTrackPage();
 
         setup();
     }
@@ -67,6 +73,7 @@ public class PeriodTrackerController implements ActionListener {
      * EFFECTS: sets up the main window of the application.
      */
     private void mainWindowSetup() {
+        mainWindow.setLayout(new BorderLayout(0, 0));
         mainWindow.setTitle("Welcome to Girl Code!");
         mainWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         mainWindow.setSize(WIDTH, HEIGHT);
@@ -83,6 +90,10 @@ public class PeriodTrackerController implements ActionListener {
         return (LocalDate.parse(date));
     }
 
+    /*
+     * EFFECTS: checks where the event occured and calls other methods based on
+     * that.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String actionCommand = e.getActionCommand();
@@ -100,6 +111,105 @@ public class PeriodTrackerController implements ActionListener {
             case "View":
                 mainDisplay.displayPage("HomePage");
                 break;
+            case "checkDate":
+                checkDate(trackPage.getDate());
+                break;
+            case "saveButton":
+                addEntry();
+                break;
+        }
+    }
+
+    /*
+     * MODIFIES: this
+     * EFFECTS: parses the date to a LocalDate object and checks that no entry
+     * exists with the date entered.
+     */
+    private boolean checkDate(String date) {
+        this.date = parseDate(date);
+
+        if (myLog.findEntry(this.date)) {
+            JOptionPane.showMessageDialog(null, "An entry already exists with this date!",
+                    "Error", JOptionPane.INFORMATION_MESSAGE);
+            trackPage.resetLogPanel();
+            return false;
+        } else {
+            trackPage.showLogPanel();
+            return true;
+        }
+    }
+
+    /*
+     * MODIFIES: this, entry, myLog, trackPage
+     * EFFECTS: adds entry to myLog, resets the tracking page and hides it.
+     */
+    private void addEntry() {
+        if (checkDate(date.toString())) {
+            entry = new PeriodEntry(date);
+
+            entry.logHeaviness(trackPage.getHeavinessLevel());
+            entry.logCollectionMethod(trackPage.getCollectionMethod(), trackPage.getCollectionNumUsed());
+            logPainAreas();
+            logBreastHealth();
+            logFeelings();
+            myLog.addEntry(entry);
+
+            JOptionPane.showMessageDialog(null, "Saved!",
+                    "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "An entry already exists with this date!",
+                    "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        trackPage.resetLogPanel();
+        trackPage.hideLogPanel();
+    }
+
+    /*
+     * MODIFIES: entry
+     * EFFECTS: logs pain areas to entry.
+     */
+    private void logPainAreas() {
+        List<String> painAreas = trackPage.getPainAreas();
+
+        if (painAreas.isEmpty()) {
+            return;
+        }
+
+        for (String s : painAreas) {
+            entry.logPain(s);
+        }
+    }
+
+    /*
+     * MODIFIES: entry
+     * EFFECTS: logs breast health to entry.
+     */
+    private void logBreastHealth() {
+        List<String> breastHealth = trackPage.getPainAreas();
+
+        if (breastHealth.isEmpty()) {
+            return;
+        }
+
+        for (String s : breastHealth) {
+            entry.logPain(s);
+        }
+    }
+
+    /*
+     * MODIFIES: entry
+     * EFFECTS: logs feelings to entry.
+     */
+    private void logFeelings() {
+        List<String> feelings = trackPage.getPainAreas();
+
+        if (feelings.isEmpty()) {
+            return;
+        }
+
+        for (String s : feelings) {
+            entry.logPain(s);
         }
     }
 }

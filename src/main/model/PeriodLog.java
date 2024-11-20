@@ -39,7 +39,8 @@ public class PeriodLog implements Writable {
             myLog.add(entry);
             return true;
         } else {
-            if (!findEntry(entry)) {
+            LocalDate date = entry.getDate();
+            if (!findEntry(date)) {
                 myLog.add(entry);
                 return true;
             }
@@ -105,13 +106,11 @@ public class PeriodLog implements Writable {
     }
 
     /*
-     * REQUIRES: myLog must not be null and entry must not be null.
-     * EFFECTS: checks to see if entry already exists in myLog and returns true if
+     * REQUIRES: date must not be null.
+     * EFFECTS: checks to see if entry already exists in myLog based on the date and returns true if
      * found. Returns false otherwise.
      */
-    private boolean findEntry(PeriodEntry entry) {
-        LocalDate date = entry.getDate();
-
+    public boolean findEntry(LocalDate date) {
         for (int i = 0; i < myLog.size(); i++) {
             if (myLog.get(i).getDate().equals(date)) {
                 return true;
