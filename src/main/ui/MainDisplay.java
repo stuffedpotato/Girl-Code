@@ -61,12 +61,16 @@ public class MainDisplay extends JPanel {
     }
 
     // Getters
-    
+
     public TrackPage getTrackPage() {
         return trackPage;
     }
 
     public HomePage getHomePage() {
         return homePage;
+    }
+
+    public ViewPage getViewPage() {
+        return viewPage;
     }
 }

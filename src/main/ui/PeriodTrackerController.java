@@ -135,6 +135,9 @@ public class PeriodTrackerController implements ActionListener {
             case "Load":
                 loadLog();
                 break;
+            case "Clear All Data":
+                clearLog();
+                break;
             default:
                 mainDisplay.displayPage("HomePage");
                 break;
@@ -222,6 +225,16 @@ public class PeriodTrackerController implements ActionListener {
         }
     }
 
+    private void clearLog() {
+        if (myLog.clearLog()) {
+            JOptionPane.showMessageDialog(null, "All entries have been removed from your log!",
+                    "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No entries available to remove!",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     /*
      * REQUIRES: heavinessLevel must be >= 0
      * MODIFIES: entry, myLog
@@ -242,10 +255,6 @@ public class PeriodTrackerController implements ActionListener {
     private void logPainAreas() {
         List<String> painAreas = trackPage.getPainAreas();
 
-        if (painAreas.isEmpty()) {
-            return;
-        }
-
         for (String s : painAreas) {
             entry.logPain(s);
         }
@@ -256,14 +265,14 @@ public class PeriodTrackerController implements ActionListener {
      * EFFECTS: logs breast health to entry.
      */
     private void logBreastHealth() {
-        List<String> breastHealth = trackPage.getPainAreas();
+        List<String> breastHealth = trackPage.getBreastHealth();
 
         if (breastHealth.isEmpty()) {
             return;
         }
 
         for (String s : breastHealth) {
-            entry.logPain(s);
+            entry.logBreastHealth(s);
         }
     }
 
@@ -272,14 +281,14 @@ public class PeriodTrackerController implements ActionListener {
      * EFFECTS: logs feelings to entry.
      */
     private void logFeelings() {
-        List<String> feelings = trackPage.getPainAreas();
+        List<String> feelings = trackPage.getFeelings();
 
         if (feelings.isEmpty()) {
             return;
         }
 
         for (String s : feelings) {
-            entry.logPain(s);
+            entry.logFeelings(s);
         }
     }
 
