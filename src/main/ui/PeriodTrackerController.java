@@ -109,6 +109,7 @@ public class PeriodTrackerController implements ActionListener {
      * EFFECTS: checks where the event occured and calls other methods based on
      * that.
      */
+    @SuppressWarnings("methodlength")
     @Override
     public void actionPerformed(ActionEvent e) {
         String actionCommand = e.getActionCommand();
