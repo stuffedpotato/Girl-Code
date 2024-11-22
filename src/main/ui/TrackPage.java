@@ -510,15 +510,6 @@ public class TrackPage extends JPanel {
         return parseInt(text);
     }
 
-    private int parseInt(String text) {
-        try {
-            int num = Integer.parseInt(text);
-            return num;
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-    }
-
     protected List<String> getPainAreas() {
         List<String> painAreas = new ArrayList<String>();
 
@@ -532,27 +523,6 @@ public class TrackPage extends JPanel {
             }
         } 
 
-        // if (backPain.isSelected()) {
-        //     painAreas.add("back");
-        // }
-        // if (headPain.isSelected()) {
-        //     painAreas.add("head");
-        // }
-        // if (breastPain.isSelected()) {
-        //     painAreas.add("breasts");
-        // }
-        // if (legsPain.isSelected()) {
-        //     painAreas.add("legs");
-        // }
-        // if (jointsPain.isSelected()) {
-        //     painAreas.add("joints");
-        // }
-        // if (vulvarPain.isSelected()) {
-        //     painAreas.add("vulvar");
-        // }
-        // if (ovularPain.isSelected()) {
-        //     painAreas.add("ovulation");
-        // }
         if (painAreas.size() == 0) {
             painAreas.add("none");
         }
@@ -602,5 +572,18 @@ public class TrackPage extends JPanel {
         }
 
         return feelings;
+    }
+
+    /*
+     * REQUIRES: text must not be null.
+     * EFFECTS: parses String to int. if exception caught, returns 0.
+     */
+    private int parseInt(String text) {
+        try {
+            int num = Integer.parseInt(text);
+            return num;
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 }

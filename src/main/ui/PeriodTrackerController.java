@@ -1,7 +1,13 @@
 package ui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import model.PeriodEntry;
 import model.PeriodLog;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,13 +20,19 @@ import java.awt.event.ActionListener;
 /*
  * This is the graphical user interface of the PeriodTracker application.
  * It creates the main window and all additional components.
- * Credits: Graphical icons used for track, modify, analyze and view created by my boyfriend, Shashank Gupta.
+ * References: 
+ * Graphical icons used for track, modify, analyze and view created by my boyfriend, Shashank Gupta.
+ * Swing elements: https://youtube.com/playlist?list=PL3bGLnkkGnuV699lP_f9DvxyK5lMFpq6U&si=Xo6xqJMaPsw6SwEE
  */
 public class PeriodTrackerController implements ActionListener {
     // Period Log & Period Entry instances
     private PeriodLog myLog;
     private PeriodEntry entry;
     private LocalDate date;
+
+    private static final String JSON_DIRECTORY = "./data/mylog.json";
+    private JsonWriter writer;
+    private JsonReader reader;
 
     private MainDisplay mainDisplay;
     private LeftMenuPanel leftMenuPanel;
@@ -42,6 +54,9 @@ public class PeriodTrackerController implements ActionListener {
      */
     public PeriodTrackerController() {
         myLog = new PeriodLog(LocalDate.now());
+
+        writer = new JsonWriter(JSON_DIRECTORY);
+        reader = new JsonReader(JSON_DIRECTORY);
 
         mainWindow = new JFrame();
         mainDisplay = new MainDisplay(this);
@@ -102,20 +117,26 @@ public class PeriodTrackerController implements ActionListener {
             case "Track":
                 mainDisplay.displayPage("TrackPage");
                 break;
-            case "Modify":
-                mainDisplay.displayPage("HomePage");
-                break;
             case "Analyze":
                 mainDisplay.displayPage("HomePage");
                 break;
             case "View":
-                mainDisplay.displayPage("HomePage");
+                mainDisplay.displayPage("ViewPage");
                 break;
             case "checkDate":
                 checkDate(trackPage.getDate());
                 break;
             case "saveButton":
                 addEntry();
+                break;
+            case "Save":
+                saveLog();
+                break;
+            case "Load":
+                loadLog();
+                break;
+            default:
+                mainDisplay.displayPage("HomePage");
                 break;
         }
     }
@@ -130,7 +151,7 @@ public class PeriodTrackerController implements ActionListener {
 
         if (myLog.findEntry(this.date)) {
             JOptionPane.showMessageDialog(null, "An entry already exists with this date!",
-                    "Error", JOptionPane.INFORMATION_MESSAGE);
+                    "Error", JOptionPane.ERROR_MESSAGE);
             trackPage.resetLogPanel();
             return false;
         } else {
@@ -147,7 +168,7 @@ public class PeriodTrackerController implements ActionListener {
         if (checkDate(date.toString())) {
             entry = new PeriodEntry(date);
 
-            entry.logHeaviness(trackPage.getHeavinessLevel());
+            logHeavinessLevel(trackPage.getHeavinessLevel());
             entry.logCollectionMethod(trackPage.getCollectionMethod(), trackPage.getCollectionNumUsed());
             logPainAreas();
             logBreastHealth();
@@ -158,7 +179,7 @@ public class PeriodTrackerController implements ActionListener {
                     "Confirmation", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "An entry already exists with this date!",
-                    "Error", JOptionPane.INFORMATION_MESSAGE);
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         trackPage.resetLogPanel();
@@ -166,7 +187,56 @@ public class PeriodTrackerController implements ActionListener {
     }
 
     /*
-     * MODIFIES: entry
+     * MODIFIES: JSON_DIRECTORY
+     * EFFECTS: saves myLog to JSON_DIRECTORY.
+     * Referenced from JSONSerializationDemo
+     * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+     */
+    private void saveLog() {
+        try {
+            writer.open();
+            writer.write(myLog);
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Saved " + myLog.getDate() + "'s log to " + JSON_DIRECTORY + ".",
+                    "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Unable to write to file: " + JSON_DIRECTORY + ".",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /*
+     * MODIFIES: myLog
+     * EFFECTS: loads from previousy saved log from JSON_DIRECTORY.
+     * Referenced from JSONSerializationDemo
+     * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+     */
+    private void loadLog() {
+        try {
+            myLog = reader.read();
+            JOptionPane.showMessageDialog(null, "Loaded " + myLog.getDate() + "'s log from " + JSON_DIRECTORY + ".",
+                    "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Unable to read from file: " + JSON_DIRECTORY + ".",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /*
+     * REQUIRES: heavinessLevel must be >= 0
+     * MODIFIES: entry, myLog
+     * EFFECTS: logs heaviness level to entry.
+     */
+    private void logHeavinessLevel(int heavinessLevel) {
+        if (heavinessLevel == -1) {
+            entry.logHeaviness(0);
+        } else {
+            entry.logHeaviness(heavinessLevel);
+        }
+    }
+
+    /*
+     * MODIFIES: entry, myLog
      * EFFECTS: logs pain areas to entry.
      */
     private void logPainAreas() {
@@ -182,7 +252,7 @@ public class PeriodTrackerController implements ActionListener {
     }
 
     /*
-     * MODIFIES: entry
+     * MODIFIES: entry, myLog
      * EFFECTS: logs breast health to entry.
      */
     private void logBreastHealth() {
@@ -198,7 +268,7 @@ public class PeriodTrackerController implements ActionListener {
     }
 
     /*
-     * MODIFIES: entry
+     * MODIFIES: entry, myLog
      * EFFECTS: logs feelings to entry.
      */
     private void logFeelings() {
@@ -211,5 +281,13 @@ public class PeriodTrackerController implements ActionListener {
         for (String s : feelings) {
             entry.logPain(s);
         }
+    }
+
+    /*
+     * EFFECTS: created this method because my ViewPage was not updating its
+     * contents when user was loading myLog from JSON.
+     */
+    public PeriodLog getLog() {
+        return myLog;
     }
 }

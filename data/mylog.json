@@ -1,18 +1,26 @@
 {
     "Period entries": [
         {
-            "Total number of products used": 3,
-            "Collection method": "Tampons",
-            "Heaviness": 0,
-            "Breast health": ["Healthy"],
+            "Total number of products used": 0,
+            "Collection method": "Null",
+            "Heaviness": 3,
             "Date": "2024-10-11",
-            "Areas of pain": ["Back"]
+            "Areas of pain": ["None"]
         },
         {
             "Total number of products used": 0,
-            "Heaviness": 3,
-            "Date": "2024-10-12"
+            "Collection method": "Tampons",
+            "Heaviness": 0,
+            "Date": "2024-10-12",
+            "Areas of pain": ["None"]
+        },
+        {
+            "Total number of products used": 0,
+            "Collection method": "Null",
+            "Heaviness": 0,
+            "Date": "2024-10-13",
+            "Areas of pain": ["Breast"]
         }
     ],
-    "Date saved": "2024-11-01"
+    "Date saved": "2024-11-21"
 }

@@ -1,6 +1,7 @@
 package ui;
 
 import javax.swing.*;
+
 import java.awt.*;
 
 import java.awt.event.ActionListener;
@@ -11,9 +12,11 @@ import java.awt.event.ActionListener;
 public class MainDisplay extends JPanel {
     private CardLayout layout;
     private ActionListener listener;
+    private PeriodTrackerController controller;
 
     private TrackPage trackPage;
     private HomePage homePage;
+    private ViewPage viewPage;
 
     /*
      * REQUIRES: listener must not be null.
@@ -23,9 +26,11 @@ public class MainDisplay extends JPanel {
      */
     public MainDisplay(ActionListener listener) {
         this.listener = listener;
+        this.controller = (PeriodTrackerController) listener;
         layout = new CardLayout();
         trackPage = new TrackPage(this.listener);
         homePage = new HomePage();
+        viewPage = new ViewPage(controller.getLog());
 
         setup();
     }
@@ -39,6 +44,7 @@ public class MainDisplay extends JPanel {
         this.setBorder(BorderFactory.createEmptyBorder());
         this.add(trackPage, "TrackPage");
         this.add(homePage, "HomePage");
+        this.add(viewPage, "ViewPage");
     }
 
     /*
@@ -47,9 +53,15 @@ public class MainDisplay extends JPanel {
      * EFFECTS: displays the page depending on user input.
      */
     public void displayPage(String page) {
+        if (page == "ViewPage") {
+            viewPage.updateLog(controller.getLog());
+        }
+
         layout.show(this, page);
     }
 
+    // Getters
+    
     public TrackPage getTrackPage() {
         return trackPage;
     }
