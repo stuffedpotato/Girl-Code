@@ -25,7 +25,7 @@ Women's health has always been extremely important to me, especially breast heal
 - As a user, I want to be able to load my period log.
 - Potentially: As a user, I want to be able to check predictions for my next cycle based on previously entered data.
 
-# Instructions for End User
+## Instructions for End User
 
 - You can add an entry to the log by clicking on the "Track" button in the left panel, adding a date and logging your data and then clicking on the "Save" button at the bottom.
 - You can clear all entries from the log by clicking on the "Clear All Data" button in the bottom panel.
