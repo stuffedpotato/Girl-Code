@@ -122,7 +122,7 @@ public class ViewPage extends JPanel {
             entryPanel.add(feelings);
             entryPanel.add(breastHealth);
 
-            setFont(entryPanel, new Font("Helevetica", Font.BOLD, 20));
+            setFont(entryPanel, new Font("Helevetica", Font.PLAIN, 20));
             setOpacity(entryPanel);
 
             viewPanel.add(entryPanel);

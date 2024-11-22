@@ -24,3 +24,11 @@ Women's health has always been extremely important to me, especially breast heal
 - As a user, I want to be able to save my daily period log.
 - As a user, I want to be able to load my period log.
 - Potentially: As a user, I want to be able to check predictions for my next cycle based on previously entered data.
+
+# Instructions for End User
+
+- You can add an entry to the log by clicking on the "Track" button in the left panel, adding a date and logging your data and then clicking on the "Save" button at the bottom.
+- You can clear all entries from the log by clicking on the "Clear All Data" button in the bottom panel.
+- You can locate my visual component by opening the application. The home page is taken from a website (referenced in code) however the logo and some embellishments on the home page are designed by my boyfriend Shashank Gupta. The icons for the left panel are also designed by him.
+- You can save the state of my application by clicking on the "Save" button in the bottom panel.
+- You can reload the state of my application by clicking on the "Load" button in the bottom panel.
