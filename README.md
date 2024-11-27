@@ -32,3 +32,25 @@ Women's health has always been extremely important to me, especially breast heal
 - You can locate my visual component by opening the application. The home page is taken from a website (referenced in code) however the logo and some embellishments on the home page are designed by my boyfriend Shashank Gupta. The icons for the left panel are also designed by him.
 - You can save the state of my application by clicking on the "Save" button in the bottom panel.
 - You can reload the state of my application by clicking on the "Load" button in the bottom panel.
+
+## Phase 4: Task 2
+
+- Representation of events:
+
+Event Log: 
+
+
+Wed Nov 27 00:40:10 PST 2024
+Added 2024-10-11's entry to period log.
+
+
+Wed Nov 27 00:40:18 PST 2024
+Added 2024-10-12's entry to period log.
+
+
+Wed Nov 27 00:40:25 PST 2024
+Saved period log.
+
+
+Wed Nov 27 00:40:32 PST 2024
+Cleared period log.

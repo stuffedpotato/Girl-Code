@@ -101,6 +101,9 @@ public class PeriodTrackerController implements ActionListener {
         mainWindow.setLocationRelativeTo(null);
         mainWindow.setResizable(false);
 
+        // Referenced from:
+        // https://docs.oracle.com/javase/tutorial/uiswing/events/windowlistener.html;
+        // https://stackoverflow.com/questions/60516720/java-how-to-print-message-when-a-jframe-is-closed
         mainWindow.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -121,6 +124,7 @@ public class PeriodTrackerController implements ActionListener {
     }
 
     /*
+     * Referenced from: https://github.students.cs.ubc.ca/CPSC210/AlarmSystem.git
      * REQUIRES: eventLog must not be null.
      * EFFECTS: prints eventLog to the console when user closes the application.
      */
