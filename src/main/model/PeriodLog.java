@@ -37,15 +37,18 @@ public class PeriodLog implements Writable {
     public boolean addEntry(PeriodEntry entry) {
         if (myLog.isEmpty()) {
             myLog.add(entry);
+            EventLog.getInstance().logEvent(new Event("Added " + entry.getDate() + "'s entry to period log."));
             return true;
         } else {
             LocalDate date = entry.getDate();
             if (!findEntry(date)) {
                 myLog.add(entry);
+                EventLog.getInstance().logEvent(new Event("Added " + entry.getDate() + "'s entry to period log."));
                 return true;
             }
         }
 
+        EventLog.getInstance().logEvent(new Event("Failed to add " + entry.getDate() + "'s entry to period log."));
         return false;
     }
 
@@ -56,10 +59,12 @@ public class PeriodLog implements Writable {
      */
     public boolean clearLog() {
         if (myLog.isEmpty()) {
+            EventLog.getInstance().logEvent(new Event("Failed to clear period log."));
             return false;
         }
 
         myLog.removeAll(myLog);
+        EventLog.getInstance().logEvent(new Event("Cleared period log."));
         return true;
     }
 
@@ -180,6 +185,8 @@ public class PeriodLog implements Writable {
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("Date saved", date);
         jsonObj.put("Period entries", entriesToJson());
+
+        EventLog.getInstance().logEvent(new Event("Saved period log."));
         return jsonObj;
     }
 

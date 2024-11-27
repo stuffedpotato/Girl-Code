@@ -3,6 +3,8 @@ package ui;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import model.Event;
+import model.EventLog;
 import model.PeriodEntry;
 import model.PeriodLog;
 import persistence.JsonReader;
@@ -16,6 +18,9 @@ import java.util.List;
 import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /*
  * This is the graphical user interface of the PeriodTracker application.
@@ -85,16 +90,26 @@ public class PeriodTrackerController implements ActionListener {
 
     /*
      * MODIFIES: this
-     * EFFECTS: sets up the main window of the application.
+     * EFFECTS: sets up the main window of the application and adds window listener
+     * to it.
      */
     private void mainWindowSetup() {
         mainWindow.setLayout(new BorderLayout(0, 0));
         mainWindow.setTitle("Welcome to Girl Code!");
-        mainWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        mainWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         mainWindow.setSize(WIDTH, HEIGHT);
         mainWindow.setLocationRelativeTo(null);
-        mainWindow.setVisible(true);
         mainWindow.setResizable(false);
+
+        mainWindow.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                printLog(EventLog.getInstance());
+                mainWindow.dispose();
+            }
+        });
+
+        mainWindow.setVisible(true);
     }
 
     /*
@@ -103,6 +118,18 @@ public class PeriodTrackerController implements ActionListener {
      */
     private LocalDate parseDate(String date) {
         return (LocalDate.parse(date));
+    }
+
+    /*
+     * REQUIRES: eventLog must not be null.
+     * EFFECTS: prints eventLog to the console when user closes the application.
+     */
+    private void printLog(EventLog eventLog) {
+        System.out.println("\n\nEvent Log: \n\n");
+
+        for (Event event : eventLog) {
+            System.out.println(event.toString() + "\n\n");
+        }
     }
 
     /*
