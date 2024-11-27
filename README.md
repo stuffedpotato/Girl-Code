@@ -35,22 +35,22 @@ Women's health has always been extremely important to me, especially breast heal
 
 ## Phase 4: Task 2
 
-- Representation of events:
+Representation of events:
 
-Event Log: 
-
-
-Wed Nov 27 00:40:10 PST 2024
-Added 2024-10-11's entry to period log.
-
-
-Wed Nov 27 00:40:18 PST 2024
-Added 2024-10-12's entry to period log.
-
-
-Wed Nov 27 00:40:25 PST 2024
-Saved period log.
-
-
-Wed Nov 27 00:40:32 PST 2024
-Cleared period log.
+> Event Log: 
+>
+>
+> Wed Nov 27 00:40:10 PST 2024
+> Added 2024-10-11's entry to period log.
+>
+>
+> Wed Nov 27 00:40:18 PST 2024
+> Added 2024-10-12's entry to period log.
+>
+>
+> Wed Nov 27 00:40:25 PST 2024
+> Saved period log.
+>
+>
+> Wed Nov 27 00:40:32 PST 2024
+> Cleared period log.
