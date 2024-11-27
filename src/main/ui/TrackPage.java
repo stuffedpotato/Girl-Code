@@ -546,8 +546,6 @@ public class TrackPage extends JPanel {
             breastHealth.add("swollen");
         }
 
-        System.out.println("\nIn getBreastHealth: " + breastHealth);
-
         return breastHealth;
     }
 
