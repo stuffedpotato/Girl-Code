@@ -54,3 +54,9 @@ Representation of events:
 >
 > Wed Nov 27 00:40:32 PST 2024
 > Cleared period log.
+
+## Phase 4: Task 3
+
+Currently, my PeriodTrackerController class implements ActionListener and therefore is functioning as the action listener for the other elements in my GUI. It also sets up the main window of the application. I would refactor this so that my PeriodTrackerController class only acts as the action listener and I would create another class that creates the main window of the application. So then each class has one specific application. 
+
+I am quite happy with the console based portion of the application. Also with the different elements being created as separate classes in the UI package. I do however have an issue with MainDisplay saving PeriodTrackerController as a separate field. I did this so that ViewPage could access myLog (PeriodLog) that is created in PeriodTrackerController. I think if I had more time to action my previous paragraph, I could remove this access.

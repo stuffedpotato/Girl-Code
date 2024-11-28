@@ -85,7 +85,6 @@ public class PeriodTrackerController implements ActionListener {
         mainDisplay.displayPage("HomePage");
         mainWindow.add(leftMenuPanel, BorderLayout.WEST);
         mainWindow.add(lowerMenuPanel, BorderLayout.SOUTH);
-
     }
 
     /*
