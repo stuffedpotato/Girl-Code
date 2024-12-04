@@ -18,12 +18,14 @@ Women's health has always been extremely important to me, especially breast heal
 
 - As a user, I want to be able to log my daily period information to the calendar.
 - As a user, I want to be able to view my previous entries.
-- As a user, I want to be able to modify an entry.
 - As a user, I want to be able to clear my log.
-- As a user, I want to be able to analyze my cycle information (average cycle length, breast health etc.).
 - As a user, I want to be able to save my daily period log.
 - As a user, I want to be able to load my period log.
-- Potentially: As a user, I want to be able to check predictions for my next cycle based on previously entered data.
+
+Upcoming:
+- As a user, I want to be able to modify an entry.
+- As a user, I want to be able to analyze my cycle information (average cycle length, breast health etc.).
+- As a user, I want to be able to check predictions for my next cycle based on previously entered data.
 
 ## Instructions for End User
 
@@ -33,9 +35,7 @@ Women's health has always been extremely important to me, especially breast heal
 - You can save the state of my application by clicking on the "Save" button in the bottom panel.
 - You can reload the state of my application by clicking on the "Load" button in the bottom panel.
 
-## Phase 4: Task 2
-
-Representation of events:
+## Representation of events:
 
 > Event Log: 
 >
@@ -54,9 +54,3 @@ Representation of events:
 >
 > Wed Nov 27 00:40:32 PST 2024
 > Cleared period log.
-
-## Phase 4: Task 3
-
-Currently, my PeriodTrackerController class implements ActionListener and therefore is functioning as the action listener for the other elements in my GUI. It also sets up the main window of the application. I would refactor this so that my PeriodTrackerController class only acts as the action listener and I would create another class that creates the main window of the application. So then each class has one specific application. 
-
-I am quite happy with the console based portion of the application; also with the different elements being created as separate classes in the UI package. I do however have an issue with MainDisplay saving PeriodTrackerController as a separate field. I did this so that ViewPage could access myLog (PeriodLog) that is created in PeriodTrackerController. I think if I had more time to action my previous paragraph, I could remove this access.
